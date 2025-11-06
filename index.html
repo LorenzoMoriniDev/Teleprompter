@@ -46,7 +46,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=block" rel="stylesheet">
+    <!-- PERFORMANCE FIX: Changed display=block to display=swap to prevent render-blocking text -->
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -80,7 +81,7 @@
         <div class="card main-script-card">
             <h2 class="card-title">Script</h2>
             <div class="text-field">
-                <textarea id="script-text" placeholder="Paste your script here..."></textarea>
+                <textarea id="script-text" placeholder="Paste your script here..." aria-label="Script Text Area"></textarea>
             </div>
         </div>
 
@@ -104,15 +105,17 @@
                 <div class="pacing-fields-container">
                     <div class="pacing-input-group">
                         <div class="text-field">
+                            <!-- ACCESSIBILITY FIX: Added label for wpm-input -->
                             <input type="number" id="wpm-input" value="120" min="20" step="10">
                         </div>
-                        <span class="pacing-label">WPM</span>
+                        <label for="wpm-input" class="pacing-label">WPM</label>
                     </div>
                     <div class="pacing-input-group">
                         <div class="text-field">
+                            <!-- ACCESSIBILITY FIX: Added label for time-input -->
                             <input type="number" id="time-input" min="0.1" step="0.5">
                         </div>
-                        <span class="pacing-label">Mins</span>
+                        <label for="time-input" class="pacing-label">Mins</label>
                     </div>
                 </div>
             </div>
@@ -120,7 +123,8 @@
 
         <div class="card" id="font-layout-card">
             <div class="control-group">
-                <h2 class="card-title">Font Size</h2>
+                <!-- ACCESSIBILITY FIX: Converted h2 to a label for fontsize-input -->
+                <label for="fontsize-input" class="card-title">Font Size</label>
                 <div class="pacing-input-group">
                     <div class="text-field">
                        <input type="number" id="fontsize-input" value="36" min="16" max="200" step="2">
@@ -129,10 +133,11 @@
                 </div>
             </div>
             <div class="control-group">
-                 <h2 class="card-title">Mirror (M)</h2>
-                 <label class="switch-container" title="Toggle Mirror Mode (M)">
+                 <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
+                 <label for="mirror-toggle" class="card-title">Mirror (M)</label>
+                 <div class="switch-container" title="Toggle Mirror Mode (M)">
                     <input type="checkbox" id="mirror-toggle" class="switch">
-                 </label>
+                 </div>
             </div>
             <div class="control-group">
                 <h2 class="card-title">Alignment</h2>
@@ -178,16 +183,18 @@
                 </select>
             </div>
             <div class="control-group">
-                <h2 class="card-title">Use Classic Prompter</h2>
-                 <label class="switch-container" title="Force Prompter to use Classic Theme">
+                <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
+                <label for="classic-prompter-toggle" class="card-title">Use Classic Prompter</label>
+                 <div class="switch-container" title="Force Prompter to use Classic Theme">
                     <input type="checkbox" id="classic-prompter-toggle" class="switch" checked>
-                 </label>
+                 </div>
             </div>
             <div class="control-group">
-                <h2 class="card-title">Dark Mode Prompter</h2>
-                <label class="switch-container" title="Toggle Prompter between Light and Dark Mode">
+                <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
+                <label for="prompter-dark-mode-toggle" class="card-title">Dark Mode Prompter</label>
+                <div class="switch-container" title="Toggle Prompter between Light and Dark Mode">
                    <input type="checkbox" id="prompter-dark-mode-toggle" class="switch" checked>
-                </label>
+                </div>
            </div>
         </div>
 
@@ -238,6 +245,7 @@
         © 2025 Lorenzo Morini — All rights reserved.
     </footer>
 
-    <script src="script.js"></script>
+    <!-- PERFORMANCE FIX: Added defer attribute to prevent render-blocking -->
+    <script src="script.js" defer></script>
 </body>
 </html>
