@@ -42,17 +42,15 @@
         })();
     </script>
     
-    <!-- Preconnect to required origins -->
+    <!-- Preconnect to required origins for font loading performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- PERFORMANCE FIX: Asynchronously load all CSS to prevent render-blocking -->
-    <link rel="preload" href="themes.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="themes.css"></noscript>
-    
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    <!-- CLS FIX: Load critical stylesheets synchronously to prevent layout shifts. -->
+    <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="style.css">
 
+    <!-- Load non-critical fonts stylesheet asynchronously. -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap"></noscript>
 
