@@ -1,0 +1,245 @@
+/*
+========================================
+THEME DEFINITIONS
+========================================
+*/
+
+/* --- Classic Themes --- */
+[data-theme="classic-light"] {
+    --m3-color-primary: #3f49db;
+    --m3-color-on-primary: #FFFFFF;
+    --m3-color-background: #FFFFFF;
+    --m3-color-surface: #F5F5F5;
+    --m3-color-on-surface: #000000;
+    --m3-color-surface-variant: #E0E0E0;
+    --m3-color-on-surface-variant: #333333;
+    --m3-color-outline: #BDBDBD;
+    --m3-color-error: #D32F2F;
+}
+
+[data-theme="classic-dark"] {
+    --m3-color-primary: #636bd6;
+    --m3-color-on-primary: #000000;
+    --m3-color-background: #000000;
+    --m3-color-surface: #1E1E1E;
+    --m3-color-on-surface: #FFFFFF;
+    --m3-color-surface-variant: #2C2C2C;
+    --m3-color-on-surface-variant: #CCCCCC;
+    --m3-color-outline: #555555;
+    --m3-color-error: #FF5555;
+}
+
+/*
+========================================
+PROMPTER THEME OVERRIDES
+========================================
+*/
+
+/* Forces the prompter elements to use the Classic theme's colors when this class is applied */
+.theme-override-classic[data-prompter-mode="light"] {
+    --m3-color-background: #FFFFFF;
+    --m3-color-on-surface: #000000;
+    --m3-color-primary: #0000FF;
+    --m3-color-error: #D32F2F;
+}
+
+.theme-override-classic[data-prompter-mode="dark"] {
+    --m3-color-background: #000000;
+    --m3-color-on-surface: #FFFFFF;
+    --m3-color-primary: #00FFFF;
+    --m3-color-error: #FF5555;
+}
+
+
+/*
+========================================
+FULL THEME PALETTES
+========================================
+*/
+
+/* --- Nord Themes --- */
+[data-theme="nord-light"] {
+    --nord0: #2E3440;
+    --nord1: #3B4252;
+    --nord2: #434C5E;
+    --nord3: #4C566A;
+    --nord4: #D8DEE9;
+    --nord5: #E5E9F0;
+    --nord6: #ECEFF4;
+    --nord7: #8FBCBB;
+    --nord8: #88C0D0;
+    --nord9: #81A1C1;
+    --nord10: #5E81AC;
+    --nord11: #BF616A;
+    --nord12: #D08770;
+    --nord13: #EBCB8B;
+    --nord14: #A3BE8C;
+    --nord15: #B48EAD;
+    --m3-color-primary: var(--nord10);
+    --m3-color-on-primary: var(--nord6);
+    --m3-color-background: var(--nord5);
+    --m3-color-surface: var(--nord6);
+    --m3-color-on-surface: var(--nord1);
+    --m3-color-surface-variant: var(--nord4);
+    --m3-color-on-surface-variant: var(--nord2);
+    --m3-color-outline: var(--nord3);
+    --m3-color-error: var(--nord11);
+}
+
+[data-theme="nord-dark"] {
+    --nord0: #2E3440;
+    --nord1: #3B4252;
+    --nord2: #434C5E;
+    --nord3: #4C566A;
+    --nord4: #D8DEE9;
+    --nord5: #E5E9F0;
+    --nord6: #ECEFF4;
+    --nord7: #8FBCBB;
+    --nord8: #88C0D0;
+    --nord9: #81A1C1;
+    --nord10: #5E81AC;
+    --nord11: #BF616A;
+    --nord12: #D08770;
+    --nord13: #EBCB8B;
+    --nord14: #A3BE8C;
+    --nord15: #B48EAD;
+    --m3-color-primary: var(--nord8);
+    --m3-color-on-primary: var(--nord1);
+    --m3-color-background: var(--nord0);
+    --m3-color-surface: var(--nord1);
+    --m3-color-on-surface: var(--nord5);
+    --m3-color-surface-variant: var(--nord2);
+    --m3-color-on-surface-variant: var(--nord4);
+    --m3-color-outline: var(--nord3);
+    --m3-color-error: var(--nord11);
+}
+
+/* --- Solarized Themes --- */
+[data-theme^="solarized-"] {
+    --base03: #002b36;
+    --base02: #073642;
+    --base01: #586e75;
+    --base00: #657b83;
+    --base0: #839496;
+    --base1: #93a1a1;
+    --base2: #eee8d5;
+    --base3: #fdf6e3;
+    --red: #dc322f;
+    --blue: #268bd2;
+}
+
+[data-theme="solarized-light"] {
+    --m3-color-primary: var(--blue);
+    --m3-color-on-primary: var(--base3);
+    --m3-color-background: var(--base3);
+    --m3-color-surface: var(--base2);
+    --m3-color-on-surface: var(--base01);
+    --m3-color-surface-variant: #e7e0ce;
+    /* A slightly darker variant of base2 for hover */
+    --m3-color-on-surface-variant: var(--base00);
+    --m3-color-outline: var(--base1);
+    --m3-color-error: var(--red);
+}
+
+[data-theme="solarized-dark"] {
+    --m3-color-primary: var(--blue);
+    --m3-color-on-primary: var(--base03);
+    --m3-color-background: var(--base03);
+    --m3-color-surface: var(--base02);
+    --m3-color-on-surface: var(--base1);
+    --m3-color-surface-variant: #0e404d;
+    /* A slightly lighter variant of base02 for hover */
+    --m3-color-on-surface-variant: var(--base0);
+    --m3-color-outline: var(--base01);
+    --m3-color-error: var(--red);
+}
+
+/* --- Gruvbox Themes --- */
+[data-theme="gruvbox-light"] {
+    --m3-color-primary: #458588;
+    --m3-color-on-primary: #fbf1c7;
+    --m3-color-background: #fbf1c7;
+    --m3-color-surface: #ebdbb2;
+    --m3-color-on-surface: #3c3836;
+    --m3-color-surface-variant: #d5c4a1;
+    --m3-color-on-surface-variant: #665c54;
+    --m3-color-outline: #bdae93;
+    --m3-color-error: #cc241d;
+}
+
+[data-theme="gruvbox-dark"] {
+    --m3-color-primary: #83a598;
+    --m3-color-on-primary: #282828;
+    --m3-color-background: #282828;
+    --m3-color-surface: #3c3836;
+    --m3-color-on-surface: #ebdbb2;
+    --m3-color-surface-variant: #504945;
+    --m3-color-on-surface-variant: #bdae93;
+    --m3-color-outline: #665c54;
+    --m3-color-error: #fb4934;
+}
+
+/* --- Monokai Theme (Dark Only) --- */
+[data-theme="monokai-dark"] {
+    --m3-color-primary: #A6E22E;
+    --m3-color-on-primary: #272822;
+    --m3-color-background: #272822;
+    --m3-color-surface: #3E3D32;
+    --m3-color-on-surface: #F8F8F2;
+    --m3-color-surface-variant: #49483E;
+    --m3-color-on-surface-variant: #9E9E9E;
+    --m3-color-outline: #75715E;
+    --m3-color-error: #F92672;
+}
+
+/* --- Dracula Theme (Dark Only) --- */
+[data-theme="dracula-dark"] {
+    --m3-color-primary: #BD93F9;
+    --m3-color-on-primary: #F8F8F2;
+    --m3-color-background: #282A36;
+    --m3-color-surface: #44475A;
+    --m3-color-on-surface: #F8F8F2;
+    --m3-color-surface-variant: #21222C;
+    --m3-color-on-surface-variant: #6272A4;
+    --m3-color-outline: #6272A4;
+    --m3-color-error: #FF5555;
+}
+
+/* --- Material Palenight Theme (Dark Only) --- */
+[data-theme="material-dark"] {
+    --m3-color-primary: #82AAFF;
+    --m3-color-on-primary: #292D3E;
+    --m3-color-background: #292D3E;
+    --m3-color-surface: #3A4055;
+    --m3-color-on-surface: #A6ACCD;
+    --m3-color-surface-variant: #303348;
+    --m3-color-on-surface-variant: #676E95;
+    --m3-color-outline: #535A7E;
+    --m3-color-error: #F07178;
+}
+
+/* --- One Dark Pro Theme (Dark Only) --- */
+[data-theme="onedark-dark"] {
+    --m3-color-primary: #61AFEF;
+    --m3-color-on-primary: #282C34;
+    --m3-color-background: #282C34;
+    --m3-color-surface: #21252B;
+    --m3-color-on-surface: #ABB2BF;
+    --m3-color-surface-variant: #3B4048;
+    --m3-color-on-surface-variant: #5C6370;
+    --m3-color-outline: #4B5263;
+    --m3-color-error: #E06C75;
+}
+
+/* --- Tomorrow Night Theme (Dark Only) --- */
+[data-theme="tomorrow-dark"] {
+    --m3-color-primary: #81A2BE;
+    --m3-color-on-primary: #1D1F21;
+    --m3-color-background: #1D1F21;
+    --m3-color-surface: #282A2E;
+    --m3-color-on-surface: #C5C8C6;
+    --m3-color-surface-variant: #373B41;
+    --m3-color-on-surface-variant: #969896;
+    --m3-color-outline: #42464D;
+    --m3-color-error: #CC6666;
+}
