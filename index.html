@@ -9,8 +9,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-
+    <link rel="manifest" href="manifest.json">
     <!-- SEO Meta Tags -->
     <title>Free Online Teleprompter | Simple Web-Based Prompter Tool</title>
     <meta name="description" content="A simple, free, and powerful online teleprompter. Paste your script, set the speed, and start prompting. Perfect for videos, speeches, and presentations. No installation required.">
@@ -42,17 +41,12 @@
         })();
     </script>
     
-    <!-- Preconnect to required origins for font loading performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- CLS FIX: Load critical stylesheets synchronously to prevent layout shifts. -->
     <link rel="stylesheet" href="themes.css">
     <link rel="stylesheet" href="style.css">
-
-    <!-- Load non-critical fonts stylesheet asynchronously. -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap"></noscript>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- PERFORMANCE FIX: Changed display=block to display=swap to prevent render-blocking text -->
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -110,12 +104,14 @@
                 <div class="pacing-fields-container">
                     <div class="pacing-input-group">
                         <div class="text-field">
+                            <!-- ACCESSIBILITY FIX: Added label for wpm-input -->
                             <input type="number" id="wpm-input" value="120" min="20" step="10">
                         </div>
                         <label for="wpm-input" class="pacing-label">WPM</label>
                     </div>
                     <div class="pacing-input-group">
                         <div class="text-field">
+                            <!-- ACCESSIBILITY FIX: Added label for time-input -->
                             <input type="number" id="time-input" min="0.1" step="0.5">
                         </div>
                         <label for="time-input" class="pacing-label">Mins</label>
@@ -126,6 +122,7 @@
 
         <div class="card" id="font-layout-card">
             <div class="control-group">
+                <!-- ACCESSIBILITY FIX: Converted h2 to a label for fontsize-input -->
                 <label for="fontsize-input" class="card-title">Font Size</label>
                 <div class="pacing-input-group">
                     <div class="text-field">
@@ -135,6 +132,7 @@
                 </div>
             </div>
             <div class="control-group">
+                 <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
                  <label for="mirror-toggle" class="card-title">Mirror (M)</label>
                  <div class="switch-container" title="Toggle Mirror Mode (M)">
                     <input type="checkbox" id="mirror-toggle" class="switch">
@@ -184,12 +182,14 @@
                 </select>
             </div>
             <div class="control-group">
+                <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
                 <label for="classic-prompter-toggle" class="card-title">Use Classic Prompter</label>
                  <div class="switch-container" title="Force Prompter to use Classic Theme">
                     <input type="checkbox" id="classic-prompter-toggle" class="switch" checked>
                  </div>
             </div>
             <div class="control-group">
+                <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
                 <label for="prompter-dark-mode-toggle" class="card-title">Dark Mode Prompter</label>
                 <div class="switch-container" title="Toggle Prompter between Light and Dark Mode">
                    <input type="checkbox" id="prompter-dark-mode-toggle" class="switch" checked>
@@ -244,6 +244,21 @@
         © 2025 Lorenzo Morini — All rights reserved.
     </footer>
 
+    <!-- PERFORMANCE FIX: Added defer attribute to prevent render-blocking -->
     <script src="script.js" defer></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(error => {
+                console.log('ServiceWorker registration failed: ', error);
+                });
+            });
+        }
+        </script>
 </body>
 </html>

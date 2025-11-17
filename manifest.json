@@ -1,0 +1,21 @@
+{
+    "name": "Free Online Teleprompter",
+    "short_name": "Teleprompter",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#282A36",
+    "theme_color": "#BD93F9",
+    "description": "A simple, free, and powerful online teleprompter for videos, speeches, and presentations.",
+    "icons": [
+        {
+            "src": "favicon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "favicon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
