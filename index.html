@@ -104,14 +104,12 @@
                 <div class="pacing-fields-container">
                     <div class="pacing-input-group">
                         <div class="text-field">
-                            <!-- ACCESSIBILITY FIX: Added label for wpm-input -->
                             <input type="number" id="wpm-input" value="120" min="20" step="10">
                         </div>
                         <label for="wpm-input" class="pacing-label">WPM</label>
                     </div>
                     <div class="pacing-input-group">
                         <div class="text-field">
-                            <!-- ACCESSIBILITY FIX: Added label for time-input -->
                             <input type="number" id="time-input" min="0.1" step="0.5">
                         </div>
                         <label for="time-input" class="pacing-label">Mins</label>
@@ -149,47 +147,8 @@
             </div>
         </div>
 
-        <div class="card" id="theme-appearance-card">
+        <
             <div class="control-group">
-                <h2 class="card-title">UI Theme</h2>
-                <div class="custom-select-wrapper">
-                    <div id="custom-select-trigger" class="custom-select-trigger" tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="custom-select-label">
-                        <span id="custom-select-text">Nord</span>
-                        <svg class="custom-select-arrow"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg>
-                    </div>
-                    <ul id="custom-select-options" class="custom-select-options" role="listbox" aria-labelledby="custom-select-label">
-                        <li data-value="classic" role="option" tabindex="-1"><span>Classic</span><svg><use href="#icon-theme-both"></use></svg></li>
-                        <li data-value="nord" role="option" tabindex="-1"><span>Nord</span><svg><use href="#icon-theme-both"></use></svg></li>
-                        <li data-value="solarized" role="option" tabindex="-1"><span>Solarized</span><svg><use href="#icon-theme-both"></use></svg></li>
-                        <li data-value="gruvbox" role="option" tabindex="-1"><span>Gruvbox</span><svg><use href="#icon-theme-both"></use></svg></li>
-                        <li data-value="dracula" role="option" tabindex="-1"><span>Dracula</span><svg><use href="#icon-theme-dark-only"></use></svg></li>
-                        <li data-value="monokai" role="option" tabindex="-1"><span>Monokai</span><svg><use href="#icon-theme-dark-only"></use></svg></li>
-                        <li data-value="material" role="option" tabindex="-1"><span>Material</span><svg><use href="#icon-theme-dark-only"></use></svg></li>
-                        <li data-value="onedark" role="option" tabindex="-1"><span>One Dark</span><svg><use href="#icon-theme-dark-only"></use></svg></li>
-                        <li data-value="tomorrow" role="option" tabindex="-1"><span>Tomorrow</span><svg><use href="#icon-theme-dark-only"></use></svg></li>
-                    </ul>
-                </div>
-                <select id="theme-picker" style="display: none;">
-                    <option value="classic">Classic</option>
-                    <option value="nord" selected>Nord</option>
-                    <option value="solarized">Solarized</option>
-                    <option value="gruvbox">Gruvbox</option>
-                    <option value="dracula">Dracula</option>
-                    <option value="monokai">Monokai</option>
-                    <option value="material">Material</option>
-                    <option value="onedark">One Dark</option>
-                    <option value="tomorrow">Tomorrow</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
-                <label for="classic-prompter-toggle" class="card-title">Use Classic Prompter</label>
-                 <div class="switch-container" title="Force Prompter to use Classic Theme">
-                    <input type="checkbox" id="classic-prompter-toggle" class="switch" checked>
-                 </div>
-            </div>
-            <div class="control-group">
-                <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
                 <label for="prompter-dark-mode-toggle" class="card-title">Dark Mode Prompter</label>
                 <div class="switch-container" title="Toggle Prompter between Light and Dark Mode">
                    <input type="checkbox" id="prompter-dark-mode-toggle" class="switch" checked>
