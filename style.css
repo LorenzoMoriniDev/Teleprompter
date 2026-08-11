@@ -18,11 +18,9 @@ BASE STYLES & GLOBAL TOKENS
     --type-body-medium: 14px;
     --type-label-medium: 12px;
 
-    /* Prompter UI Colors */
-    --prompter-ui-light-bg: rgba(255, 255, 255, 0.85);
-    --prompter-ui-light-on-bg: #1C1B1F;
-    --prompter-ui-dark-bg: rgba(28, 27, 31, 0.85);
-    --prompter-ui-dark-on-bg: #E3E3E3;
+    /* Prompter UI Colors (prompter is always dark) */
+    --prompter-ui-background: rgba(28, 27, 31, 0.85);
+    --prompter-ui-on-background: #E3E3E3;
 }
 
 /* Override shadows for all dark themes */
@@ -230,116 +228,11 @@ input::-webkit-inner-spin-button {
 
 /*
 ========================================
-CUSTOM DROPDOWN (THEME PICKER)
-========================================
-*/
-.custom-select-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.custom-select-trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px;
-    background-color: var(--m3-color-surface-variant);
-    border-radius: var(--shape-small);
-    border: 1px solid transparent;
-    color: var(--m3-color-on-surface);
-    cursor: pointer;
-    transition: all 150ms ease-in-out;
-    font-size: var(--type-body-large);
-}
-
-.custom-select-trigger:focus-visible {
-    outline: 2px solid var(--m3-color-primary);
-    outline-offset: 2px;
-}
-
-.custom-select-wrapper.open .custom-select-trigger {
-    border-color: var(--m3-color-primary);
-    background-color: var(--m3-color-surface);
-}
-
-.custom-select-arrow {
-    width: 20px;
-    height: 20px;
-    fill: var(--m3-color-on-surface-variant);
-    transition: transform 150ms ease-in-out;
-}
-
-.custom-select-wrapper.open .custom-select-arrow {
-    transform: rotate(180deg);
-}
-
-.custom-select-options {
-    display: none;
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    width: 100%;
-    list-style: none;
-    padding: 4px;
-    margin: 0;
-    background-color: var(--m3-color-surface);
-    border-radius: var(--shape-medium);
-    box-shadow: var(--shadow-elevation-2);
-    z-index: 50;
-    max-height: 200px;
-    overflow-y: auto;
-    box-sizing: border-box;
-}
-
-.custom-select-wrapper.open .custom-select-options {
-    display: block;
-}
-
-.custom-select-options li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 12px;
-    cursor: pointer;
-    border-radius: var(--shape-small);
-    color: var(--m3-color-on-surface);
-    font-size: var(--type-body-large);
-    transition: background-color 150ms ease-in-out;
-}
-
-.custom-select-options li:hover,
-.custom-select-options li:focus {
-    background-color: var(--m3-color-surface-variant);
-    outline: none;
-}
-
-.custom-select-options li svg {
-    width: 18px;
-    height: 18px;
-    fill: var(--m3-color-on-surface-variant);
-}
-
-.custom-select-options li.selected {
-    font-weight: bold;
-    color: var(--m3-color-primary);
-}
-
-.custom-select-options li.selected svg {
-    fill: var(--m3-color-primary);
-}
-
-/*
-========================================
 CONTROL CARDS LAYOUT
 ========================================
 */
 #pacing-controls-card,
-#font-layout-card,
-#theme-appearance-card {
+#font-layout-card {
     display: flex;
     flex-wrap: wrap;
     gap: var(--shape-large);
@@ -351,6 +244,14 @@ CONTROL CARDS LAYOUT
     display: flex;
     flex-direction: column;
     gap: var(--shape-large);
+}
+
+.card-title {
+    font-family: var(--font-family);
+    font-weight: 600;
+    margin: 0;
+    cursor: default;
+    display: block;
 }
 
 .control-group .card-title {
@@ -687,18 +588,6 @@ TELEPROMPTER SCREEN
     transform: translateX(-50%) translateY(0);
     transition: background-color 150ms ease-in-out, opacity 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-/* Set Prompter UI colors based on prompter's effective mode */
-#teleprompter-display[data-prompter-mode="light"] {
-    --prompter-ui-background: var(--prompter-ui-light-bg);
-    --prompter-ui-on-background: var(--prompter-ui-light-on-bg);
-}
-
-#teleprompter-display[data-prompter-mode="dark"] {
-    --prompter-ui-background: var(--prompter-ui-dark-bg);
-    --prompter-ui-on-background: var(--prompter-ui-dark-on-bg);
-}
-
 
 #prompter-controls.ui-hidden {
     transform: translateX(-50%) translateY(calc(100% + 20px));

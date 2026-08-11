@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const wpmInput = document.getElementById('wpm-input');
     const timeInput = document.getElementById('time-input');
     const mirrorToggle = document.getElementById('mirror-toggle');
-    const themePicker = document.getElementById('theme-picker');
     const alignToggleBtn = document.getElementById('align-toggle-btn');
     const alignCenterIcon = document.getElementById('align-center-icon');
     const alignLeftIcon = document.getElementById('align-left-icon');
@@ -21,17 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const lightModeIcon = document.getElementById('light-mode-icon');
     const darkModeIcon = document.getElementById('dark-mode-icon');
-
-    // Prompter Theme Controls
-    const classicPrompterToggle = document.getElementById('classic-prompter-toggle');
-    const prompterDarkModeToggle = document.getElementById('prompter-dark-mode-toggle');
-
-    // Custom Dropdown References
-    const customSelectWrapper = document.querySelector('.custom-select-wrapper');
-    const customSelectTrigger = document.getElementById('custom-select-trigger');
-    const customSelectText = document.getElementById('custom-select-text');
-    const customOptionsContainer = document.getElementById('custom-select-options');
-    const customOptionsList = document.querySelectorAll('#custom-select-options li');
 
     // Preview & Time Display
     const textPreview = document.getElementById('text-preview');
@@ -53,11 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- STATE MANAGEMENT ---
     let animationFrameId = null;
     let isPaused = true;
-    let currentBaseTheme = 'nord';
     let currentMode = 'dark';
     let currentAlignment = 'center';
-    let useClassicPrompter = true;
-    let prompterDarkMode = true;
     let lastEditedPacingControl = 'wpm'; // 'wpm' or 'time'
     let lastPausedPosition = 0;
     let isExpectingProgrammaticScroll = false;
@@ -101,8 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please enter a script.');
             return;
         }
-
-        applyPrompterTheme();
 
         scriptTextWrapper.textContent = text;
         teleprompterContent.style.fontSize = `${fontsizeInput.value}px`;
@@ -299,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
         textPreview.textContent = text.trim() === '' ? 'Your text will appear here...' : text;
         textPreview.style.fontSize = `${fontsizeInput.value}px`;
         textPreview.className = `text-align-${currentAlignment}`;
-        applyPrompterTheme();
     }
 
     function updateMirrorPreview() {
@@ -349,186 +331,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- THEME & SETTINGS MANAGEMENT ---
-    function setupCustomSelect() {
-        const closeDropdown = () => {
-            customSelectWrapper.classList.remove('open');
-            customSelectTrigger.setAttribute('aria-expanded', 'false');
-        };
-        const openDropdown = () => {
-            customSelectWrapper.classList.add('open');
-            customSelectTrigger.setAttribute('aria-expanded', 'true');
-        };
-        const selectOption = (option) => {
-            themePicker.value = option.getAttribute('data-value');
-            handleThemeChange();
-            closeDropdown();
-            customSelectTrigger.focus();
-        };
-
-        customSelectTrigger.addEventListener('click', () => {
-            if (customSelectWrapper.classList.contains('open')) {
-                closeDropdown();
-            } else {
-                openDropdown();
-                (customOptionsContainer.querySelector('.selected') || customOptionsList[0]).focus();
-            }
-        });
-        customOptionsList.forEach(option => option.addEventListener('click', () => selectOption(option)));
-        document.addEventListener('click', (e) => {
-            if (!customSelectWrapper.contains(e.target)) closeDropdown();
-        });
-
-        customSelectTrigger.addEventListener('keydown', (e) => {
-            const isOpen = customSelectWrapper.classList.contains('open');
-
-            if (e.key === 'Tab') {
-                if (isOpen) {
-                    closeDropdown();
-                }
-                return;
-            }
-
-            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (!isOpen) {
-                    openDropdown();
-                }
-                if (e.key === 'ArrowDown') {
-                    (customOptionsContainer.querySelector('.selected') || customOptionsList[0]).focus();
-                } else { // ArrowUp
-                    (customOptionsContainer.querySelector('.selected') || customOptionsList[customOptionsList.length - 1]).focus();
-                }
-                return;
-            }
-
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                if (isOpen) {
-                    closeDropdown();
-                } else {
-                    openDropdown();
-                    (customOptionsContainer.querySelector('.selected') || customOptionsList[0]).focus();
-                }
-            }
-        });
-
-        customOptionsContainer.addEventListener('keydown', (e) => {
-            const activeOption = document.activeElement;
-            if (activeOption.tagName !== 'LI' || !customOptionsContainer.contains(activeOption)) return;
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                closeDropdown();
-                customSelectTrigger.focus();
-                return;
-            }
-            switch (e.key) {
-                case 'Enter':
-                case ' ':
-                    e.preventDefault();
-                    selectOption(activeOption);
-                    break;
-                case 'Escape':
-                    e.preventDefault();
-                    closeDropdown();
-                    customSelectTrigger.focus();
-                    break;
-                case 'ArrowDown':
-                    e.preventDefault();
-                    (activeOption.nextElementSibling || customOptionsList[0]).focus();
-                    break;
-                case 'ArrowUp':
-                    e.preventDefault();
-                    (activeOption.previousElementSibling || customOptionsList[customOptionsList.length - 1]).focus();
-                    break;
-                case 'Home':
-                    e.preventDefault();
-                    customOptionsList[0].focus();
-                    break;
-                case 'End':
-                    e.preventDefault();
-                    customOptionsList[customOptionsList.length - 1].focus();
-                    break;
-            }
-        });
-    }
-
     function applyMainTheme() {
-        const darkOnlyThemes = ['dracula', 'monokai', 'material', 'onedark', 'tomorrow'];
-        const isDarkOnly = darkOnlyThemes.includes(currentBaseTheme);
-
-        if (isDarkOnly) {
-            currentMode = 'dark';
-        }
-
-        document.documentElement.setAttribute('data-theme', `${currentBaseTheme}-${currentMode}`);
-
+        document.documentElement.setAttribute('data-theme', `nord-${currentMode}`);
         lightModeIcon.style.display = currentMode === 'light' ? 'block' : 'none';
         darkModeIcon.style.display = currentMode === 'dark' ? 'block' : 'none';
-        themeToggleBtn.disabled = isDarkOnly;
-
-        const activeOption = document.querySelector(`.custom-select-options li[data-value="${currentBaseTheme}"]`);
-        if (activeOption) {
-            customSelectText.textContent = activeOption.querySelector('span').textContent;
-            customOptionsList.forEach(opt => {
-                opt.classList.remove('selected');
-                opt.setAttribute('aria-selected', 'false');
-            });
-            activeOption.classList.add('selected');
-            activeOption.setAttribute('aria-selected', 'true');
-        }
-
-        const prompterBaseTheme = useClassicPrompter ? 'classic' : currentBaseTheme;
-        const isPrompterThemeDarkOnly = darkOnlyThemes.includes(prompterBaseTheme);
-
-        if (isPrompterThemeDarkOnly) {
-            prompterDarkMode = true;
-            prompterDarkModeToggle.checked = true;
-            prompterDarkModeToggle.disabled = true;
-        } else {
-            prompterDarkModeToggle.disabled = false;
-        }
-
-        applyPrompterTheme();
-    }
-
-    function applyPrompterTheme() {
-        const prompterElements = [textPreview, teleprompterDisplay];
-
-        // Determine the effective theme for the prompter
-        const prompterThemeName = useClassicPrompter ? 'classic' : currentBaseTheme;
-        const prompterModeName = prompterDarkMode ? 'dark' : 'light';
-        const fullPrompterTheme = `${prompterThemeName}-${prompterModeName}`;
-
-        prompterElements.forEach(el => {
-            // Remove previous theme attributes if they exist
-            el.removeAttribute('data-theme');
-            // Set the new theme directly on the prompter elements
-            el.setAttribute('data-theme', fullPrompterTheme);
-            // Also set the mode for the UI controls inside the prompter
-            el.setAttribute('data-prompter-mode', prompterModeName);
-        });
-    }
-
-    function handleClassicPrompterChange() {
-        useClassicPrompter = classicPrompterToggle.checked;
-        applyMainTheme();
-        saveSettings();
-    }
-
-    function handlePrompterModeChange() {
-        prompterDarkMode = prompterDarkModeToggle.checked;
-        applyMainTheme();
-        saveSettings();
     }
 
     function toggleMainMode() {
         currentMode = currentMode === 'light' ? 'dark' : 'light';
-        applyMainTheme();
-        saveSettings();
-    }
-
-    function handleThemeChange() {
-        currentBaseTheme = themePicker.value;
         applyMainTheme();
         saveSettings();
     }
@@ -548,11 +358,8 @@ document.addEventListener('DOMContentLoaded', () => {
             wpm: wpmInput.value,
             time: timeInput.value,
             isMirrored: mirrorToggle.checked,
-            baseTheme: currentBaseTheme,
             mode: currentMode,
             alignment: currentAlignment,
-            prompterDarkMode: prompterDarkMode,
-            useClassicPrompter: useClassicPrompter,
             lastEditedPacingControl: lastEditedPacingControl
         };
         localStorage.setItem('teleprompterSettings', JSON.stringify(settings));
@@ -567,24 +374,17 @@ document.addEventListener('DOMContentLoaded', () => {
             wpmInput.value = settings.wpm || 150;
             timeInput.value = settings.time || '';
             mirrorToggle.checked = settings.isMirrored || false;
-            currentBaseTheme = settings.baseTheme || 'nord';
             currentMode = settings.mode || 'dark';
             currentAlignment = settings.alignment || 'center';
-            prompterDarkMode = typeof settings.prompterDarkMode === 'boolean' ? settings.prompterDarkMode : true;
-            useClassicPrompter = settings.useClassicPrompter || true;
             lastEditedPacingControl = settings.lastEditedPacingControl || 'wpm';
         } else {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            currentBaseTheme = 'nord';
-            useClassicPrompter = true;
             currentMode = prefersDark ? 'dark' : 'light';
             lastEditedPacingControl = 'wpm';
         }
 
         alignCenterIcon.style.display = currentAlignment === 'center' ? 'block' : 'none';
         alignLeftIcon.style.display = currentAlignment === 'left' ? 'block' : 'none';
-        classicPrompterToggle.checked = useClassicPrompter;
-        prompterDarkModeToggle.checked = prompterDarkMode;
 
         applyMainTheme();
 
@@ -615,8 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
     alignToggleBtn.addEventListener('click', toggleAlignment);
 
     themeToggleBtn.addEventListener('click', toggleMainMode);
-    classicPrompterToggle.addEventListener('change', handleClassicPrompterChange);
-    prompterDarkModeToggle.addEventListener('change', handlePrompterModeChange);
 
     teleprompterDisplay.addEventListener('click', (e) => {
         if (!e.target.closest('.prompter-ui')) togglePause();
@@ -723,5 +521,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INITIALIZATION ---
     loadSettings();
-    setupCustomSelect();
 });
