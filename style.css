@@ -5,9 +5,23 @@
     --shadow-5: 0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2);
     --font-family: 'IBM Plex Sans', sans-serif;
     --font-family-mono: 'IBM Plex Mono', monospace;
-    --font-family-prompter: 'Atkinson Hyperlegible', sans-serif;
+    --font-family-prompter: 'Atkinson Hyperlegible Next', sans-serif;
     --ease: 150ms ease-in-out;
+    /* Everything that changes with the theme, in one place: any rule that gives
+       an element its own transition drops the ones it does not name, and the
+       element then snaps to the new theme while the rest of the page fades. */
+    --theme-transition: background-color var(--ease), color var(--ease), fill var(--ease), box-shadow var(--ease), outline-color var(--ease), border-color var(--ease);
+    /* Overshoots and settles, so a size change reads as movement, not a jump */
+    --ease-bounce: 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
     --prompter-ui-on-background: #E3E3E3;
+    --text-width: 45%;
+    /* The same width as a bare number, for the arithmetic percentages cannot do */
+    --text-fraction: 0.45;
+    --text-inset: 16px;
+    /* The width of the page's column of cards. Named, because the preview's own
+       header is held to it as well, and the two must agree. */
+    --column: 864px;
+    --card-radius: 12px;
 }
 
 [data-theme$="-dark"] {
@@ -21,7 +35,7 @@
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: var(--m3-color-primary) transparent;
-    transition: background-color var(--ease), color var(--ease), fill var(--ease), box-shadow var(--ease);
+    transition: var(--theme-transition);
 }
 
 body {
@@ -29,7 +43,27 @@ body {
     font-family: var(--font-family);
     background-color: var(--m3-color-background);
     color: var(--m3-color-on-surface);
-    padding: 16px;
+    /* The scrollbar takes its width off the right of the page, so the same width
+       is given back on the left: the middle of the content is then the middle of
+       the screen, which is where the prompter puts its own text. 100vw is the
+       screen, 100% is what the bar leaves, so the difference is the bar - and it
+       is zero on anything with overlay scrollbars, with no query to ask. */
+    padding: 16px 16px 16px calc(16px + 100vw - 100%);
+}
+
+/* The preview at 100% is a full screen wide, which is wider than what the bar
+   leaves, so its last strip falls under the bar where nothing is ever seen.
+   Clipped rather than hidden: hidden leaves a box the browser can still scroll
+   sideways on its own when something takes focus, and the page would sit a few
+   pixels off and stay there. */
+body {
+    overflow-x: clip;
+}
+
+/* The prompter is the whole screen and scrolls itself, so the page behind it
+   has nothing to offer: no bar, and no chance of scrolling underneath. */
+html.is-prompting {
+    overflow: hidden;
 }
 
 input,
@@ -50,8 +84,23 @@ h2,
     cursor: default;
 }
 
+h2,
+.card-title {
+    color: var(--m3-color-primary);
+}
+
 h1 {
-    font-size: 24px;
+    font-size: clamp(20px, 5vw, 24px);
+    color: var(--m3-color-on-surface);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
 }
 
 h2 {
@@ -78,15 +127,19 @@ h2 {
     align-items: center;
 }
 
+/* A fixed column, sized to match the preview at the default text width on a
+   1920 screen: 45% of it. Fixed and not a share of the window, because there is
+   no reason for the controls to get narrower every time the window does - they
+   only fill the window once it is narrower than the column itself. */
 .top-bar,
 .card,
 .content-wrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: var(--column);
 }
 
 .top-bar {
-    padding: 16px 0;
+    padding: 0 0 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -96,7 +149,7 @@ h2 {
     margin-bottom: 16px;
     background-color: var(--m3-color-surface);
     padding: 12px;
-    border-radius: 12px;
+    border-radius: var(--card-radius);
     box-shadow: var(--shadow-1);
 }
 
@@ -107,28 +160,90 @@ h2 {
     gap: 12px;
 }
 
+/* Equal columns, so the four control labels sit at even intervals */
+.control-row {
+    flex: 1 1 320px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    min-width: 0;
+}
+
 .control-group {
     flex: 1;
-    min-width: 140px;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
+/* Options sit at the top of their column, all on one line: only the width
+   slider adds a second row underneath. */
+#font-layout-card .pacing-input-group,
+#font-layout-card .switch-container,
+#font-layout-card .single-button-container {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin-block: 0;
+    min-height: 45px;
+}
+
 .main-script-card,
 .preview-card {
-    min-height: 250px;
+    min-height: 220px;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
 .main-script-card {
-    height: 40vh;
+    height: 32vh;
 }
 
+/* The preview box stands in for the screen, so its card is as wide a slice of
+   the window as the text is: at 60% it is a card sitting in the page, at 100%
+   it is the window itself. The width is the body's own width plus the padding
+   it cancels, times the setting, which is why the fraction exists. Centring is
+   the container's, and flex centring lets the full-bleed case hang over both
+   edges evenly. */
 .preview-card {
-    height: 35vh;
+    height: 48vh;
+    max-width: none;
+    width: calc(100vw * var(--text-fraction));
+    padding: 0;
+    transition: var(--theme-transition), width var(--ease-bounce), border-radius var(--ease);
+}
+
+/* Rounded corners flush against the window edge just look broken */
+.preview-card.is-full-bleed {
+    border-radius: 0;
+}
+
+/* However wide the preview grows, its title and its clock stay inside the same
+   column as the cards above, so they line up with them instead of drifting out
+   to the edges of the screen. */
+.preview-card .preview-header {
+    width: 100%;
+    max-width: var(--column);
+    margin-inline: auto;
+    padding: 12px 12px 0;
+}
+
+/* The rounding lives here rather than on the card, so that clipping the black
+   box to it does not also clip a header that has run out of room and spilled. */
+.preview-viewport {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    min-height: 0;
+    overflow: hidden;
+    border-end-start-radius: var(--card-radius);
+    border-end-end-radius: var(--card-radius);
+}
+
+.preview-card.is-full-bleed .preview-viewport {
+    border-radius: 0;
 }
 
 /* --- Forms & inputs --- */
@@ -157,6 +272,8 @@ h2 {
     resize: none;
 }
 
+/* The browser's own spin buttons take no styling worth the name, so each field
+   carries its own pair instead: same job, same step, the app's colours. */
 input[type=number] {
     appearance: textfield;
 }
@@ -167,6 +284,63 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+.text-field.has-stepper {
+    position: relative;
+}
+
+.text-field.has-stepper input {
+    padding-inline: 10px 24px;
+}
+
+.stepper {
+    position: absolute;
+    inset: 4px 4px 4px auto;
+    width: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.step-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    background-color: transparent;
+    color: var(--m3-color-on-surface-variant);
+    cursor: pointer;
+}
+
+.step-btn:hover {
+    background-color: var(--m3-color-primary);
+    color: var(--m3-color-on-primary);
+}
+
+.step-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+/* A spin control is a mouse affordance: the browser's own does not appear on a
+   phone either, a target this small cannot be hit with a thumb, and it would
+   sit right where the caret goes. Where no pointer is fine, the field is a
+   plain field and the numeric keypad does the work. Not a width breakpoint:
+   a narrow window on a desktop still has a mouse, a large tablet still has not. */
+@media not all and (any-pointer: fine) {
+    .stepper {
+        display: none;
+    }
+
+    .text-field.has-stepper input {
+        padding-inline: 12px;
+    }
+}
+
 .pacing-fields-container,
 .pacing-input-group,
 .single-button-container {
@@ -175,8 +349,19 @@ input::-webkit-inner-spin-button {
     align-items: center;
 }
 
+/* Wide gap so WPM never looks like a label for the duration next to it; it
+   narrows before the row is forced to wrap on small screens. The percentage is
+   of this row's own width, so the spacing answers to the card: measured against
+   the viewport it kept growing after the card had stopped at its max width. */
 .pacing-fields-container {
-    gap: 16px;
+    gap: clamp(28px, 13.4%, 104px);
+    flex-wrap: wrap;
+}
+
+.duration-fields {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .pacing-input-group {
@@ -184,13 +369,70 @@ input::-webkit-inner-spin-button {
 }
 
 .pacing-input-group .text-field {
-    max-width: 80px;
+    flex: 0 0 72px;
+    max-width: 72px;
+}
+
+.pacing-input-group input {
+    min-width: 0;
 }
 
 .pacing-label {
     font-family: var(--font-family-mono);
     font-weight: 500;
     color: var(--m3-color-on-surface-variant);
+}
+
+/* --- Slider --- */
+.slider {
+    width: 100%;
+    min-width: 64px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--m3-color-surface-variant);
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--m3-color-primary);
+}
+
+.slider::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--m3-color-surface-variant);
+}
+
+.slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--m3-color-primary);
+}
+
+.slider:hover::-webkit-slider-thumb,
+.slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--m3-color-primary) 25%, transparent);
+}
+
+.slider:hover::-moz-range-thumb,
+.slider:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--m3-color-primary) 25%, transparent);
 }
 
 /* --- Switch --- */
@@ -239,6 +481,9 @@ input::-webkit-inner-spin-button {
     justify-content: center;
     width: 40px;
     height: 40px;
+    /* The browser's own button padding would eat into the glyph on any button
+       smaller than 40px, squashing it rather than centring it. */
+    padding: 0;
     background-color: transparent;
     border: 0;
     border-radius: 50%;
@@ -255,7 +500,10 @@ input::-webkit-inner-spin-button {
     fill: var(--m3-color-on-surface-variant);
 }
 
-.prompter-ui .icon-button svg {
+/* Descendant and self alike: the close button carries the class itself, the
+   transport buttons sit inside a bar that carries it. The prompter screen is
+   black in either theme, so these do not follow the theme at all. */
+.prompter-ui svg {
     fill: var(--prompter-ui-on-background);
 }
 
@@ -287,8 +535,8 @@ input::-webkit-inner-spin-button {
 }
 
 .fab svg {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     fill: var(--m3-color-on-primary);
 }
 
@@ -298,11 +546,27 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
-/* --- Preview --- */
+/* --- Card headers --- */
+/* A title on the left, a readout on the right: the word count over the script
+   and the running time over the preview are the same thing in two places.
+
+   Side by side while they fit; when they stop fitting the readout drops onto a
+   line of its own under the title, which is the last arrangement that is still
+   readable. Neither is allowed to shrink or to break mid-figure: past that
+   point they run past the edge rather than turn into a squashed mess. */
+.card-header,
 .preview-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    gap: 4px 12px;
+}
+
+.preview-controls,
+.card-header .card-title,
+.preview-header .card-title {
+    flex-shrink: 0;
 }
 
 .preview-controls {
@@ -311,17 +575,25 @@ input::-webkit-inner-spin-button {
     gap: 8px;
 }
 
+/* The glyph is the standard size, the button is not: a 40px one would set the
+   height of the whole header row for no reason. */
 #preview-scroll-btn {
     width: 32px;
     height: 32px;
 }
 
-#preview-scroll-btn svg {
-    width: 20px;
-    height: 20px;
+/* Play carries the same weight over its own replay icon as it does in the
+   prompter's bar, where it stands a quarter larger than the buttons beside it. */
+#preview-play-icon {
+    width: 30px;
+    height: 30px;
 }
 
-#total-time-preview {
+#total-time-preview,
+#word-count {
+    white-space: nowrap;
+    cursor: default;
+    user-select: none;
     font-family: var(--font-family-mono);
     font-weight: 700;
     color: var(--m3-color-primary);
@@ -331,35 +603,97 @@ input::-webkit-inner-spin-button {
 }
 
 /* --- Prompter text surfaces --- */
-#text-preview,
+/* The preview box stands for the screen, so both text surfaces share the same
+   typography and the same width rule: 100% is the full screen in both. */
+#text-preview-text,
 #script-text-wrapper {
     font-family: var(--font-family-prompter);
     font-weight: 700;
     white-space: pre-line;
     user-select: none;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+    width: var(--text-width);
+    padding-inline: var(--text-inset);
+    margin: 0 auto;
+}
+
+/* The card is the screen now, so the text inside it is the whole of it */
+#text-preview-text {
+    width: 100%;
 }
 
 #text-preview {
-    font-size: 60px;
-    line-height: 1.5;
     background-color: var(--m3-color-background);
     color: var(--m3-color-on-surface);
-    border-radius: 8px;
-    padding: 16px;
-    flex-grow: 1;
-    overflow-wrap: break-word;
+    cursor: pointer;
+    width: 100%;
     overflow: hidden;
     scrollbar-width: none;
 }
 
-#script-text-wrapper {
-    padding: 0 10vw;
-    line-height: 1.6;
+/* Reading line: sits over the preview, never scrolls with it */
+.reading-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% - 2 * var(--text-inset));
+    height: 3px;
+    transform: translate(-50%, -50%);
+    background-color: var(--m3-color-error);
+    pointer-events: none;
 }
 
-#text-preview.mirrored,
-#teleprompter-display.mirrored #script-text-wrapper {
+/* The flip belongs to the text, never to the window around it: the window is
+   what the browser scrolls, and turning it over turns every input axis over
+   with it - wheel, trackpad, touch, scrollbar, keys. Flipped, the script runs
+   backwards down the scrollbar instead; scrollTopFor()/progressAt() map that,
+   so the scrolling itself stays exactly as native as it is unmirrored. */
+#text-preview-text,
+#script-text-wrapper {
+    transform: scale(var(--mirror-x, 1), var(--mirror-y, 1));
+}
+
+.mirror-h {
+    --mirror-x: -1;
+}
+
+.mirror-v {
+    --mirror-y: -1;
+}
+
+.mirror-buttons {
+    gap: 4px;
+}
+
+/* Same glyph on its side: the pair reads as one control with two axes. Turning
+   the mirror on turns the glyph over on the axis that button controls, so the
+   button is a picture of what the screen is doing rather than a lit lamp. */
+#mirror-h-btn svg,
+#mirror-v-btn svg {
+    transition: var(--theme-transition), transform var(--ease-bounce);
+}
+
+/* Both states of a button spell out the same list of functions in the same
+   order, so the browser interpolates them one by one: the scale runs 1 to -1
+   through 0 and the glyph turns over on the spot. Leaving the resting state as
+   a bare rotate() gives the two ends different lists, and the browser falls
+   back to interpolating the matrices instead - which reaches a mirror image by
+   decomposing it into a rotation, and the icon takes a wild spin to get there. */
+#mirror-h-btn svg {
+    transform: scaleX(1);
+}
+
+#mirror-h-btn.is-active svg {
     transform: scaleX(-1);
+}
+
+#mirror-v-btn svg {
+    transform: scaleY(1) rotate(90deg);
+}
+
+#mirror-v-btn.is-active svg {
+    transform: scaleY(-1) rotate(90deg);
 }
 
 /* --- Teleprompter screen --- */
@@ -370,12 +704,12 @@ input::-webkit-inner-spin-button {
     background-color: var(--m3-color-background);
     color: var(--m3-color-on-surface);
     overflow-y: auto;
-    scrollbar-gutter: stable;
-    scrollbar-color: transparent transparent;
+    scrollbar-width: none;
 }
 
-#teleprompter-display.is-paused {
-    scrollbar-color: var(--m3-color-primary) transparent;
+#teleprompter-display::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 #teleprompter-display.cursor-hidden {
@@ -384,16 +718,22 @@ input::-webkit-inner-spin-button {
 
 #teleprompter-content {
     position: relative;
+    /* Half a screen at each end, so a run opens with the reading line resting
+       against the near edge of the first line, still to cross it, and closes
+       with the last line just past it. Mirrored, the text arrives from the
+       other side and the same padding puts the line on that side instead. */
     padding: 50vh 0;
 }
 
-/* Reading line */
+/* Reading line: pinned to the screen, not carried by the text. Sticky keeps a
+   box inside its containing block, which ends with the last line, so the bar
+   was dragged up off centre over the closing frames of a run. */
 #teleprompter-content::before {
     content: '';
-    position: sticky;
+    position: fixed;
     top: 50%;
-    left: 10%;
-    width: 80%;
+    left: calc((100% - var(--text-width)) / 2 + var(--text-inset));
+    width: calc(var(--text-width) - 2 * var(--text-inset));
     display: block;
     height: 3px;
     background-color: var(--m3-color-error);
@@ -404,8 +744,8 @@ input::-webkit-inner-spin-button {
 #pause-indicator {
     display: none;
     position: absolute;
-    left: 10%;
-    width: 80%;
+    left: calc((100% - var(--text-width)) / 2 + var(--text-inset));
+    width: calc(var(--text-width) - 2 * var(--text-inset));
     height: 3px;
     background-color: var(--m3-color-primary);
     z-index: 5;
@@ -415,7 +755,7 @@ input::-webkit-inner-spin-button {
 .prompter-ui {
     position: fixed;
     z-index: 20;
-    transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--theme-transition), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .prompter-ui.ui-hidden {
@@ -430,6 +770,10 @@ input::-webkit-inner-spin-button {
 
 #close-btn.ui-hidden {
     transform: translateY(calc(-100% - 16px));
+}
+
+#prompter-ui-layer {
+    display: none;
 }
 
 #prompter-controls {
@@ -450,8 +794,18 @@ input::-webkit-inner-spin-button {
     transform: translateX(-50%) translateY(calc(100% + 20px));
 }
 
-#return-btn {
-    display: none;
+.icon-button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.icon-button:disabled:hover {
+    background-color: transparent;
+}
+
+#play-pause-btn svg {
+    width: 30px;
+    height: 30px;
 }
 
 #time-remaining {
@@ -465,8 +819,8 @@ input::-webkit-inner-spin-button {
 
 /* --- SEO content & footer --- */
 .content-wrapper {
-    margin: 0 auto;
-    padding: 24px;
+    margin: 0 auto 16px;
+    padding: 0 12px;
 }
 
 .intro-section h2 {
@@ -480,14 +834,45 @@ input::-webkit-inner-spin-button {
     color: var(--m3-color-on-surface-variant);
 }
 
+/* The line that says what the thing is. Two points above the body text read as
+   a typo rather than a decision, so it goes well clear of it - larger than the
+   headings below it too, which makes it the opening statement of the article
+   rather than a stray sentence in front of one. Air on both sides does the
+   rest: it is set off from the app above and from the first heading below. */
+.intro-section .lede {
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--m3-color-on-surface);
+    margin-block: 16px 32px;
+}
+
+/* One statement to a line: separate blocks rather than breaks inside a
+   paragraph, so each one stands on its own without a paragraph's gap after it. */
+.intro-section p.line {
+    margin-block: 0;
+}
+
 .intro-section ul {
     padding-left: 20px;
 }
 
 .site-footer {
-    margin: 0 auto 24px auto;
+    margin: 0 auto;
     padding: 16px 24px;
     text-align: center;
     font-size: 14px;
     color: var(--m3-color-on-surface-variant);
+}
+
+/* The only link on the page, so it is styled here rather than globally: it
+   keeps the footer's colour and says it is a link with the underline alone,
+   then takes the accent colour the rest of the interface uses when active. */
+.site-footer a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.site-footer a:hover {
+    color: var(--m3-color-primary);
 }

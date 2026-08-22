@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="manifest.json">
     <!-- SEO Meta Tags -->
-    <title>Free Online Teleprompter | Simple Web-Based Prompter Tool</title>
-    <meta name="description" content="A simple, free, and powerful online teleprompter. Paste your script, set the speed, and start prompting. Perfect for videos, speeches, and presentations. No installation required.">
-    <meta name="keywords" content="online teleprompter, free teleprompter, web teleprompter, prompter tool, speech prompter">
+    <title>Free Online Teleprompter | Pause, Rewind, Works Offline</title>
+    <meta name="description" content="A free teleprompter that runs in your browser. Set the pace by words per minute or by total duration, pause and scroll back mid-take, mirror the text for a beamsplitter, and keep using it with no connection. No account, and the script stays on your device.">
+    <meta name="keywords" content="online teleprompter, free teleprompter, offline teleprompter, mirrored teleprompter, words per minute teleprompter, prompter for video">
     <link rel="canonical" href="https://teleprompter.free/" />
 
     <!-- Goat Counter Analytics -->
@@ -39,8 +39,8 @@
     <link rel="preload" href="fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/ibm-plex-mono-500.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/ibm-plex-mono-700.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="fonts/atkinson-hyperlegible-700-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="fonts/atkinson-hyperlegible-700-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/atkinson-hyperlegible-next-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/atkinson-hyperlegible-next-700-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="themes.css">
     <link rel="stylesheet" href="style.css">
@@ -55,6 +55,11 @@
         <symbol id="icon-close" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></symbol>
         <symbol id="icon-dark_mode" viewBox="0 -960 960 960"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></symbol>
         <symbol id="icon-light_mode" viewBox="0 -960 960 960"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></symbol>
+        <!-- Material Symbols "keyboard_arrow_up"/"down", for the field steppers -->
+        <symbol id="icon-step_up" viewBox="0 -960 960 960"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></symbol>
+        <symbol id="icon-step_down" viewBox="0 -960 960 960"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></symbol>
+        <!-- Material Symbols "flip"; the vertical button rotates it 90deg -->
+        <symbol id="icon-flip" viewBox="0 -960 960 960"><path d="M360-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h160v80H200v560h160v80Zm80 80v-880h80v880h-80Zm160-80v-80h80v80h-80Zm0-640v-80h80v80h-80Zm160 640v-80h80q0 33-23.5 56.5T760-120Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80q33 0 56.5 23.5T840-760h-80Z"/></symbol>
         <symbol id="icon-mirror" viewBox="0 -960 960 960"><path d="M480-80q-143 0-253-90T88-400h82q28 106 114 173t196 67q86 0 160-42.5T756-320H640v-80h240v240h-80v-80q-57 76-141 118T480-80Zm0-280q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-240h80v80q57-76 141-118t179-42q143 0 253 90t139 230h-82q-28-106-114-173t-196-67q-86 0-160 42.5T204-640h116v80H80Z"/></symbol>
         <symbol id="icon-pause" viewBox="0 -960 960 960"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></symbol>
         <symbol id="icon-play" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol>
@@ -65,7 +70,7 @@
     <!-- SETUP SCREEN / MAIN APPLICATION CONTAINER -->
     <div id="setup-container">
         <header class="top-bar">
-            <h1>Free Online Teleprompter</h1>
+            <h1><img class="title-icon" src="favicon.png" alt="" width="160" height="160">Free Online Teleprompter</h1>
             <button id="theme-toggle-btn" class="icon-button" title="Toggle Theme">
                 <svg id="light-mode-icon"><use href="#icon-light_mode"></use></svg>
                 <svg id="dark-mode-icon"><use href="#icon-dark_mode"></use></svg>
@@ -73,7 +78,10 @@
         </header>
 
         <div class="card main-script-card">
-            <h2 class="card-title">Script</h2>
+            <div class="card-header">
+                <h2 class="card-title">Script</h2>
+                <span id="word-count">0 words</span>
+            </div>
             <div class="text-field">
                 <textarea id="script-text" placeholder="Paste your script here..." aria-label="Script Text Area"></textarea>
             </div>
@@ -90,7 +98,12 @@
                     <span id="total-time-preview">0m 0s</span>
                 </div>
             </div>
-            <div id="text-preview"></div>
+            <div class="preview-viewport">
+                <div id="text-preview">
+                    <div id="text-preview-text"></div>
+                </div>
+                <div class="reading-line"></div>
+            </div>
         </div>
         
         <div class="card" id="pacing-controls-card">
@@ -98,48 +111,92 @@
                 <h2 class="card-title">Pacing</h2>
                 <div class="pacing-fields-container">
                     <div class="pacing-input-group">
-                        <div class="text-field">
+                        <div class="text-field has-stepper">
                             <!-- ACCESSIBILITY FIX: Added label for wpm-input -->
-                            <input type="number" id="wpm-input" value="120" min="20" step="10">
+                            <input type="number" id="wpm-input" value="120" min="0" max="999" step="10">
+                            <span class="stepper">
+                                <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More words per minute"><svg><use href="#icon-step_up"></use></svg></button>
+                                <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less words per minute"><svg><use href="#icon-step_down"></use></svg></button>
+                            </span>
                         </div>
                         <label for="wpm-input" class="pacing-label">WPM</label>
                     </div>
-                    <div class="pacing-input-group">
-                        <div class="text-field">
-                            <!-- ACCESSIBILITY FIX: Added label for time-input -->
-                            <input type="number" id="time-input" min="0.1" step="0.5">
+                    <div class="duration-fields">
+                        <div class="pacing-input-group">
+                            <div class="text-field has-stepper">
+                                <input type="number" id="time-input" min="0" step="1" placeholder="0">
+                                <span class="stepper">
+                                    <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More minutes"><svg><use href="#icon-step_up"></use></svg></button>
+                                    <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less minutes"><svg><use href="#icon-step_down"></use></svg></button>
+                                </span>
+                            </div>
+                            <label for="time-input" class="pacing-label">Min</label>
                         </div>
-                        <label for="time-input" class="pacing-label">Mins</label>
+                        <div class="pacing-input-group">
+                            <div class="text-field has-stepper">
+                                <input type="number" id="seconds-input" min="0" max="59" step="5" placeholder="0">
+                                <span class="stepper">
+                                    <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More seconds"><svg><use href="#icon-step_up"></use></svg></button>
+                                    <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less seconds"><svg><use href="#icon-step_down"></use></svg></button>
+                                </span>
+                            </div>
+                            <label for="seconds-input" class="pacing-label">Sec</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card" id="font-layout-card">
-            <div class="control-group">
-                <!-- ACCESSIBILITY FIX: Converted h2 to a label for fontsize-input -->
-                <label for="fontsize-input" class="card-title">Font Size</label>
-                <div class="pacing-input-group">
-                    <div class="text-field">
-                       <input type="number" id="fontsize-input" value="36" min="16" max="200" step="2">
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="fontsize-input" class="card-title">Font Size</label>
+                    <div class="pacing-input-group">
+                        <div class="text-field has-stepper">
+                           <input type="number" id="fontsize-input" value="36" min="16" max="200" step="2">
+                           <span class="stepper">
+                               <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More font size"><svg><use href="#icon-step_up"></use></svg></button>
+                               <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less font size"><svg><use href="#icon-step_down"></use></svg></button>
+                           </span>
+                        </div>
+                        <span class="pacing-label">px</span>
                     </div>
-                    <span class="pacing-label">px</span>
+                </div>
+                <div class="control-group" id="width-control">
+                    <label for="width-input" class="card-title">Text Width</label>
+                    <div class="pacing-input-group">
+                        <div class="text-field has-stepper">
+                           <input type="number" id="width-input" value="45" min="30" max="100" step="5">
+                           <span class="stepper">
+                               <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More text width"><svg><use href="#icon-step_up"></use></svg></button>
+                               <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less text width"><svg><use href="#icon-step_down"></use></svg></button>
+                           </span>
+                        </div>
+                        <span class="pacing-label">%</span>
+                    </div>
+                    <input type="range" id="width-slider" class="slider" min="30" max="100" step="5" value="45" aria-label="Text Width">
                 </div>
             </div>
-            <div class="control-group">
-                 <!-- ACCESSIBILITY FIX: Converted h2 to a label and changed wrapper to a div -->
-                 <label for="mirror-toggle" class="card-title">Mirror (M)</label>
-                 <div class="switch-container" title="Toggle Mirror Mode (M)">
-                    <input type="checkbox" id="mirror-toggle" class="switch">
-                 </div>
-            </div>
-            <div class="control-group">
-                <h2 class="card-title">Alignment</h2>
-                <div class="single-button-container">
-                    <button id="align-toggle-btn" class="icon-button" title="Toggle Text Alignment">
-                        <svg id="align-center-icon"><use href="#icon-align-center"></use></svg>
-                        <svg id="align-left-icon" style="display: none;"><use href="#icon-align-left"></use></svg>
-                    </button>
+            <div class="control-row">
+                <div class="control-group" id="mirror-control">
+                    <h2 class="card-title">Mirror</h2>
+                    <div class="single-button-container mirror-buttons">
+                        <button id="mirror-h-btn" class="icon-button" title="Mirror left to right" aria-pressed="false">
+                            <svg><use href="#icon-flip"></use></svg>
+                        </button>
+                        <button id="mirror-v-btn" class="icon-button" title="Mirror top to bottom" aria-pressed="false">
+                            <svg><use href="#icon-flip"></use></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="control-group" id="alignment-control">
+                    <h2 class="card-title">Alignment</h2>
+                    <div class="single-button-container">
+                        <button id="align-toggle-btn" class="icon-button" title="Toggle Text Alignment">
+                            <svg id="align-center-icon"><use href="#icon-align-center"></use></svg>
+                            <svg id="align-left-icon" style="display: none;"><use href="#icon-align-left"></use></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,30 +211,52 @@
     <!-- DESCRIPTIVE CONTENT SECTION -->
     <main class="content-wrapper">
         <article class="intro-section">
-            <h2>A Simple, Free & Professional Web Teleprompter</h2>
-            <p>This tool is designed to help you speak fluently and confidently on camera, during a public speech, or for a presentation. Turn your browser into a professional <strong>speech prompter</strong> with a single click. Just paste your script, adjust the scroll speed and font size, and you're ready to go.</p>
-            <h3>How Does Our Web Teleprompter Work?</h3>
-            <p>Using our prompter tool is incredibly simple and requires no sign-up or installation:</p>
+            <p class="lede">A free online teleprompter for video, lectures, conference talks, YouTube scripts, podcasts and public speeches.</p>
+
+            <h2>How to use it</h2>
+            <p class="line">Paste your script into the box and set the pace, either as words per minute or as a total duration.</p>
+            <p class="line">Filling in one calculates the other based on the script length, and the resulting running time is shown next to the preview.</p>
+            <p class="line">Font size and text width are set separately and have no effect on the timing.</p>
+            <p class="line">Press play, and the prompter takes over the screen.</p>
             <ul>
-                <li><strong>Paste Your Text:</strong> Copy and paste your speech into the "Your Script" area.</li>
-                <li><strong>Customize:</strong> Set the words per minute (WPM), font size, and activate mirror mode if needed.</li>
-                <li><strong>Start Prompting:</strong> Click the Start button to begin the smooth, constant-speed text scroll.</li>
+                <li><strong>Spacebar</strong> pauses and resumes.</li>
+                <li><strong>Mouse wheel</strong> moves through the script and carries on from wherever you stop. If you were paused, a button appears to take you back to the line you were on.</li>
+                <li><strong>R</strong> restarts from the top.</li>
+                <li><strong>Esc</strong> closes the prompter.</li>
             </ul>
-            <p>It's the perfect tool for content creators, YouTubers, students, and professionals looking for a reliable and <strong>free teleprompter</strong> solution.</p>
+            <p>The script and the settings are stored in your browser and restored on your next visit. Nothing is sent to a server. The site can be installed from the browser and used offline.</p>
+
+            <h2>Features</h2>
+            <ul>
+                <li>Full-size preview</li>
+                <li>Controls for pacing, text size, width and alignment</li>
+                <li>Atkinson Hyperlegible Next for increased readability</li>
+                <li>Knuth-Plass algorithm for even line breaks</li>
+                <li>Mirror mode for beamsplitter rigs</li>
+                <li>Fully offline, can be installed as a PWA</li>
+            </ul>
+
+            <h2>Why I made this</h2>
+            <p>I had a set of video lessons to record, and I wanted something to read from while I recorded them, so I went through the free teleprompters that were around at the time. They were all fine, but, to my surprise, not one of them got all the basics right. Half the time the thing I wanted was there but done carelessly, and the rest of the time it simply wasn't there. After a while, it seemed quicker to write my own than to keep working around theirs.</p>
+            <p>Once the videos were done, I took a domain and put it online for free, since I figured I couldn't be the only one who needed a tool like this. It's the same version I use. I update it whenever I feel like it.</p>
         </article>
     </main>
 
     <!-- TELEPROMPTER SCREEN -->
     <div id="teleprompter-display">
-        <button id="close-btn" class="icon-button prompter-ui" title="Close (Esc)">
-            <svg><use href="#icon-close"></use></svg>
-        </button>
         <div id="teleprompter-content">
             <div id="script-text-wrapper"></div>
             <div id="pause-indicator"></div>
         </div>
+    </div>
+
+    <!-- Kept outside the prompter so mirroring the screen never flips the controls -->
+    <div id="prompter-ui-layer">
+        <button id="close-btn" class="icon-button prompter-ui" title="Close (Esc)">
+            <svg><use href="#icon-close"></use></svg>
+        </button>
         <div id="prompter-controls" class="prompter-ui">
-            <button id="return-btn" class="icon-button prompter-button" title="Return to Paused Position"><svg><use href="#icon-return"></use></svg></button>
+            <button id="return-btn" class="icon-button prompter-button" title="Return to Paused Position" disabled><svg><use href="#icon-return"></use></svg></button>
             <button id="restart-btn" class="icon-button prompter-button" title="Restart (R)"><svg><use href="#icon-replay"></use></svg></button>
             <button id="play-pause-btn" class="icon-button prompter-button" title="Play/Pause (Spacebar)">
                 <svg id="play-icon"><use href="#icon-play"></use></svg>
@@ -188,7 +267,7 @@
     </div>
 
     <footer class="site-footer card">
-        © 2025 Lorenzo Morini — All rights reserved.
+        © 2026 <a href="https://lorenzomorini.dev/">Lorenzo Morini</a> — All rights reserved.
     </footer>
 
     <!-- PERFORMANCE FIX: Added defer attribute to prevent render-blocking -->
