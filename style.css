@@ -212,6 +212,15 @@ h2 {
     max-width: none;
     width: calc(100vw * var(--text-fraction));
     padding: 0;
+    transition: var(--theme-transition), border-radius var(--ease);
+}
+
+/* The spring is on the width only while the width control is what moved it. The
+   same number also changes when the window is resized or the page zoomed, and
+   easing into those looks like the preview is lagging behind the window, so the
+   transition is armed for one deliberate change and taken away again.
+ */
+.preview-card.is-easing-width {
     transition: var(--theme-transition), width var(--ease-bounce), border-radius var(--ease);
 }
 

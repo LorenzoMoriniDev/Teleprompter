@@ -871,6 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     widthInput.addEventListener('input', () => {
+        easePreviewWidth();
         const typed = parseInt(widthInput.value, 10);
         const min = parseInt(widthInput.min, 10);
         const max = parseInt(widthInput.max, 10);
@@ -881,12 +882,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     widthInput.addEventListener('blur', () => {
+        easePreviewWidth();
         applyTextWidth(widthInput.value);
         updatePreview();
         saveSettings();
     });
 
     widthSlider.addEventListener('input', () => {
+        easePreviewWidth();
         applyTextWidth(widthSlider.value);
         updatePreview();
         saveSettings();
@@ -921,6 +924,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* The width eases only when the width control is what moved it, so the class
+       is armed by those handlers alone and dropped again the moment the run is
+       over - or the moment anything else moves the window, even mid-run, since
+       a resize or a zoom must land instantly however it arrives. Re-arming is
+       idempotent: dragging the slider just keeps pushing the deadline out. */
+    let widthEaseTimer = null;
+
+    function easePreviewWidth() {
+        clearTimeout(widthEaseTimer);
+        previewCard.classList.add('is-easing-width');
+        // the class has to be in force before the width moves, or nothing eases
+        void previewCard.offsetWidth;
+        widthEaseTimer = setTimeout(cutPreviewWidthEase, 400);
+    }
+
+    function cutPreviewWidthEase() {
+        clearTimeout(widthEaseTimer);
+        widthEaseTimer = null;
+        previewCard.classList.remove('is-easing-width');
+    }
+
     /* Line breaks are measured against the width of the box, and the box takes
        150ms to get there. The balancer writes its breaks into the text as real
        newlines, so the browser cannot re-wrap them on the way: without this the
@@ -940,6 +964,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function settlePreviewWidth() {
+        cutPreviewWidthEase();
         if (!previewResizeFrame) return;
         cancelAnimationFrame(previewResizeFrame);
         previewResizeFrame = null;
@@ -957,6 +982,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('resize', () => {
+        cutPreviewWidthEase(); // a resize or a zoom lands at once, mid-ease or not
         syncPreviewPadding();
         updatePreview();
     });
