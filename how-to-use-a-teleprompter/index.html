@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord-dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <title>How to Use a Teleprompter | Setup, Pacing and Reading Tips</title>
+    <meta name="description" content="How to use a teleprompter for video, speeches and presentations: where to put the screen, what words-per-minute to scroll at, font size and distance, and how to read to camera without sounding like you are reading.">
+    <meta name="keywords" content="how to use a teleprompter, teleprompter tips, teleprompter setup, teleprompter speed, teleprompter words per minute, reading from a teleprompter, teleprompter for video, speech prompter tips, teleprompter font size">
+    <link rel="canonical" href="https://teleprompter.free/how-to-use-a-teleprompter/" />
+    <meta name="theme-color" content="#2E3440">
+    <meta name="author" content="Lorenzo Morini">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Free Online Teleprompter">
+    <meta property="og:url" content="https://teleprompter.free/how-to-use-a-teleprompter/">
+    <meta property="og:title" content="How to Use a Teleprompter | Setup, Pacing and Reading Tips">
+    <meta property="og:description" content="Where to put the screen, what speed to scroll at, and how to read to camera without sounding like you are reading.">
+    <meta property="og:image" content="https://teleprompter.free/favicon-512x512.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="preload" href="/fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/fonts.css">
+    <link rel="stylesheet" href="/themes.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/pages.css">
+
+    <script>
+        (function() {
+            let mode;
+            try {
+                const settingsJSON = localStorage.getItem('teleprompterSettings');
+                if (settingsJSON) {
+                    mode = JSON.parse(settingsJSON).mode || 'dark';
+                } else {
+                    mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+            } catch (e) {
+                mode = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', `nord-${mode}`);
+        })();
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "HowTo",
+          "name": "How to use a teleprompter",
+          "description": "Setting up and reading from a teleprompter for video, speeches and presentations.",
+          "totalTime": "PT15M",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Write the script the way you speak",
+              "text": "Read every line out loud as you write it. Short sentences, no clauses you would never say, contractions where you would use them."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Put the screen as close to the lens as you can",
+              "text": "Directly under or over the lens, or behind it with a beamsplitter. The further the text sits from the lens, the more obviously your eyes are off camera."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Set the font size for the distance",
+              "text": "Pick the size that is comfortable to read from where you are actually standing or sitting, then widen or narrow the text column until a line holds five or six words."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Set the pace",
+              "text": "Start at 140 words per minute and adjust. If the piece has to fit a fixed slot, enter the duration and let the prompter work out the words per minute."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Record in sections and use pause",
+              "text": "Pause between sections rather than recording in one unbroken take, and scroll back to the last line you got right instead of restarting from the top."
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Free Online Teleprompter",
+              "item": "https://teleprompter.free/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "How to use a teleprompter",
+              "item": "https://teleprompter.free/how-to-use-a-teleprompter/"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Icons used by these pages, taken from the app's set. -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-light_mode" viewBox="0 -960 960 960"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></symbol>
+        <symbol id="icon-dark_mode" viewBox="0 -960 960 960"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></symbol>
+        <symbol id="icon-play" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol>
+    </svg>
+
+    <div class="page-shell">
+        <header class="top-bar">
+            <a class="brand" href="/"><img src="/favicon.png" alt="" width="160" height="160">Free Online Teleprompter</a>
+            <button id="theme-toggle-btn" class="icon-button" title="Toggle Theme">
+                <svg id="light-mode-icon"><use href="#icon-light_mode"></use></svg>
+                <svg id="dark-mode-icon"><use href="#icon-dark_mode"></use></svg>
+            </button>
+        </header>
+
+        <main class="content-wrapper">
+            <article class="intro-section">
+                <h1>How to Use a Teleprompter</h1>
+
+                <p class="lede">The point of a teleprompter is to read a script while looking like you are speaking from memory. Screen position and script writing do most of that work.</p>
+
+                <h2>Write the Script the Way You Speak</h2>
+                <p>A script written like an article comes out, on camera, as an article being read aloud.</p>
+                <p>Read each line aloud as you write it. Keep sentences short enough to finish in one breath. Use contractions if you would use them. Cut any phrase you catch yourself tripping over: the prompter scrolls it past you at the same speed on every take.</p>
+
+                <h2>Put the Screen as Close to the Lens as Possible</h2>
+                <p>If the text is off to one side, your eyes visibly track sideways while you read.</p>
+                <ul>
+                    <li><strong>Best:</strong> a beamsplitter rig, where the text is reflected onto glass directly in front of the lens, so you read straight down the barrel. This needs the text mirrored (see the <a href="/mirror-teleprompter/">mirrored teleprompter guide</a>).</li>
+                    <li><strong>Good enough:</strong> a second screen or tablet immediately under the lens, as close as it will physically go, and far enough away that your eyes are not visibly scanning across a wide line.</li>
+                    <li><strong>Avoid:</strong> the laptop you are recording on, off to the side of the camera. The angle between the camera and the text is at its widest here.</li>
+                </ul>
+                <p>The further away the screen is, the smaller the angle your eyes travel, so a screen three metres back with large text reads better than the same text a metre away.</p>
+
+                <h2>Font Size and Line Width</h2>
+                <p>The right font size is whatever is comfortable from where you will actually be sitting or standing, so set it there rather than at your desk.</p>
+                <p>A line that holds five or six words can be taken in without the eye sweeping across it; a full-width line forces a visible left-to-right scan on every line. Narrow the text column until lines are short, and leave the alignment centred so your eyes return to roughly the same place each time.</p>
+
+                <h2>What Speed Should a Teleprompter Scroll At?</h2>
+                <p>Speed is set in words per minute. The right number depends on the material.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Words per minute</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Technical explanation, tutorial, anything with numbers</td>
+                            <td>110–130</td>
+                        </tr>
+                        <tr>
+                            <td>Presentation, lecture, conference talk</td>
+                            <td>120–140</td>
+                        </tr>
+                        <tr>
+                            <td>Standard video narration, YouTube script</td>
+                            <td>140–160</td>
+                        </tr>
+                        <tr>
+                            <td>Advertising read, high-energy delivery</td>
+                            <td>160–180</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Audiobook narration sits around 150 words per minute, which is a useful reference point. Start at 140 and adjust after a paragraph.</p>
+                <p>If the piece has to fit a slot (a 90-second clip, a 15-minute lesson), work the other way round: enter the duration and let the prompter calculate the words per minute from the script length.</p>
+
+                <h2>Record in Sections</h2>
+                <p>In an unbroken take of a long script, a mistake near the end means recording all of it again. Pause at section boundaries instead, and when something goes wrong, scroll back to the last line you got right and pick it up from there rather than restarting from the top.</p>
+                <p>A prompter that lets you pick up from where you stopped saves re-recording what was already good.</p>
+
+                <h2>Common Mistakes</h2>
+                <ul>
+                    <li><strong>Reading, not talking.</strong> Look at the camera rather than at the text, and pause where you would pause in conversation.</li>
+                    <li><strong>Chasing the scroll.</strong> If you are speeding up to keep pace with the text, the speed is wrong. Lower it.</li>
+                    <li><strong>Setting the font size at your desk.</strong> It will be unreadable from where you actually stand.</li>
+                    <li><strong>Scrolling a wall of text.</strong> Blank lines between paragraphs give you places to breathe and to stop the recording.</li>
+                </ul>
+
+                <p class="cta-row"><a class="cta" href="/"><svg><use href="#icon-play"></use></svg>Open the teleprompter</a></p>
+            </article>
+        </main>
+
+        <footer class="site-footer card">
+            © 2026 <a href="https://lorenzomorini.dev/">Lorenzo Morini</a> — All rights reserved.
+        </footer>
+    </div>
+
+    <script src="/theme.js" defer></script>
+</body>
+
+</html>

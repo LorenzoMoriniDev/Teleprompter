@@ -1,0 +1,189 @@
+/* What the written pages add to the app's own stylesheet.
+   They load style.css first, so the tokens, the card, the top bar, the icon
+   buttons, the article's type and the FAQ accordion all come from there and
+   the two sets of pages cannot drift apart. Only what the prompter has no use
+   for is here. */
+
+/* The home centres its column with #setup-container; these pages have no app
+   to wrap, so the same arrangement is given a class. */
+.page-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* The brand in the top bar. On the home that line is the h1, because the page
+   is the prompter; here the h1 belongs to the article, so the brand becomes
+   the way back to it. It keeps the h1's size so the two line up. */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(20px, 5vw, 24px);
+    font-weight: 600;
+    color: var(--m3-color-on-surface);
+    text-decoration: none;
+}
+
+.brand:hover {
+    color: var(--m3-color-primary);
+}
+
+.brand img {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+}
+
+/* style.css gives h1 the flex row the brand needs. The article's title is a
+   block of text, and a larger one: it is the page, not a label on it. */
+.intro-section h1 {
+    display: block;
+    font-size: clamp(26px, 6vw, 34px);
+    line-height: 1.2;
+    margin-block: 8px 16px;
+    /* The accent, like every other heading. On-surface is the brand mark's
+       colour, and the mark is already on the line above this one. */
+    color: var(--m3-color-primary);
+}
+
+/* The paragraph that holds the call to action. Its top margin is set wider
+   than anything that can come before it, so the button keeps the same distance
+   whether it follows a list, a paragraph or the calculator's card instead of
+   inheriting whichever margin happens to collapse into it. */
+.intro-section .cta-row {
+    margin-block: 32px 24px;
+}
+
+/* A Material filled button, built the way the brand's design system builds
+   one. The 16px radius it had belongs to the FAB, which is the only component
+   that gets its own; a button is --shape-full. Flat at rest, because the FAB's
+   shadow says "floating over the page" and this one sits in the text.
+   Specificity beats .intro-section a, which would underline it. */
+.intro-section .cta {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px 10px 16px;
+    border-radius: 999px;
+    background-color: var(--m3-color-primary);
+    color: var(--m3-color-on-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* The state layer: currentColor over the container, which reads the same on
+   any button colour. It is a ::before so that an opacity is what changes -
+   the one property here that can actually be transitioned. */
+.intro-section .cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--theme-transition), opacity var(--ease);
+}
+
+.intro-section .cta:hover {
+    color: var(--m3-color-on-primary);
+    box-shadow: var(--shadow-1);
+}
+
+.intro-section .cta:hover::before {
+    opacity: .08;
+}
+
+/* Pressed sits back down on the page: the layer deepens and the lift goes. */
+.intro-section .cta:active {
+    box-shadow: none;
+}
+
+.intro-section .cta:active::before {
+    opacity: .12;
+}
+
+.intro-section .cta svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* The pages' own painted surfaces, added to the list in style.css. The icon
+   inside the button is not here: its fill is currentColor, so it follows the
+   button rather than easing alongside it. */
+.brand,
+.intro-section .cta,
+.calc-out {
+    transition: var(--theme-transition);
+}
+
+/* --- Tables --- */
+
+.intro-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 0 20px;
+    font-size: 16px;
+    color: var(--m3-color-on-surface-variant);
+    font-variant-numeric: tabular-nums;
+}
+
+.intro-section th,
+.intro-section td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--m3-color-surface-variant);
+}
+
+.intro-section th {
+    color: var(--m3-color-on-surface);
+    font-weight: 600;
+}
+
+/* The rules separate rows; after the last one there is nothing to separate. */
+.intro-section tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* --- Calculator ---
+   A card on a page that is otherwise prose, because it is the one thing here
+   that is an instrument rather than something to read. The fields themselves
+   are the app's: .text-field, .has-stepper, .control-row, .pacing-input-group
+   .card-title and .card-header all come from style.css, so this form is the
+   same form the prompter has, down to the word count sitting in the header the
+   way it does over the app's own script box. What is left here is the card's
+   own stacking. */
+
+.calc {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-block: 0 28px;
+}
+
+/* The script's label and its field are one block, at the app's own label gap. */
+.calc-script {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* .control-row asks for `flex: 1 1 320px`, which is a width in the row-wrapping
+   card the app puts it in and a 320px HEIGHT in a column one. This is that card:
+   same display, same wrap, same gap as #pacing-controls-card. */
+.calc-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.calc textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.5;
+}

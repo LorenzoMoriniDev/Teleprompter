@@ -4,7 +4,6 @@
     --shadow-2: 0px 2px 4px rgba(0, 0, 0, 0.08);
     --shadow-5: 0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2);
     --font-family: 'IBM Plex Sans', sans-serif;
-    --font-family-mono: 'IBM Plex Mono', monospace;
     --font-family-prompter: 'Atkinson Hyperlegible Next', sans-serif;
     --ease: 150ms ease-in-out;
     /* Everything that changes with the theme, in one place: any rule that gives
@@ -35,7 +34,82 @@
     box-sizing: border-box;
     scrollbar-width: thin;
     scrollbar-color: var(--m3-color-primary) transparent;
+}
+
+/* The theme fade, on the things that are painted with a theme colour and on
+   nothing else. It used to sit on `*`: six property transitions on all 262
+   elements of the page, where only about thirty of them paint anything that
+   differs between the themes. The rest were easing an inherited `color` and a
+   border colour on an element with no border.
+
+   What is left out is left out on purpose. `color` and `fill: currentColor`
+   are inherited, so everything under one of these follows it with no
+   transition of its own - and in better step than with one, since a child that
+   eases an already-easing inherited value arrives after its own parent. */
+body,
+h1,
+h2,
+h3,
+.card-title,
+.card,
+.text-field textarea,
+.text-field input,
+.step-btn,
+.pacing-label,
+.switch,
+.switch::before,
+.icon-button,
+.icon-button svg,
+.fab,
+.fab svg,
+#word-count,
+#total-time-preview,
+#text-preview,
+#teleprompter-display,
+#teleprompter-content::before,
+#pause-indicator,
+#prompter-controls,
+.reading-line,
+.width-grip::before,
+.faq,
+.faq details,
+.faq summary h3,
+.faq summary::after,
+.intro-section p,
+.intro-section li,
+.intro-section a,
+.intro-section table,
+.intro-section th,
+.intro-section td,
+.site-footer,
+.site-footer a {
     transition: var(--theme-transition);
+}
+
+/* Answered once, here, rather than component by component: a rule that forgets
+   to ask is the whole point of putting it at the base. The prompter's own
+   scroll is driven by requestAnimationFrame, not by a transition, so reading
+   still works at the pace that was asked for. */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0ms !important;
+        animation-duration: 0ms !important;
+    }
+
+    /* One rule each: a selector list is thrown away whole if any selector in it
+       is unknown, and each engine knows only its own slider pseudo-elements. */
+    .slider::-webkit-slider-runnable-track,
+    .slider::-webkit-slider-thumb {
+        transition-duration: 0ms !important;
+    }
+
+    .slider::-moz-range-track,
+    .slider::-moz-range-thumb {
+        transition-duration: 0ms !important;
+    }
 }
 
 body {
@@ -64,6 +138,7 @@ body {
    has nothing to offer: no bar, and no chance of scrolling underneath. */
 html.is-prompting {
     overflow: hidden;
+    overscroll-behavior: none;
 }
 
 input,
@@ -78,6 +153,7 @@ textarea {
 
 h1,
 h2,
+h3,
 .card-title {
     font-weight: 600;
     margin: 0;
@@ -85,6 +161,7 @@ h2,
 }
 
 h2,
+h3,
 .card-title {
     color: var(--m3-color-primary);
 }
@@ -103,7 +180,11 @@ h1 {
     flex-shrink: 0;
 }
 
-h2 {
+/* The card titles in the app are not headings: the page's heading outline is
+   the article below, not the labels on the controls. They are <p> elements, so
+   the size that came from h2 is restated here. */
+h2,
+.card-title {
     font-size: 18px;
 }
 
@@ -178,10 +259,16 @@ h2 {
 }
 
 /* Options sit at the top of their column, all on one line: only the width
-   slider adds a second row underneath. */
+   slider adds a second row underneath. Without this the auto margins below
+   centre each control in whatever height the card has, which is right in the
+   pacing card and wrong wherever the controls are the only thing setting it.
+   The calculator on /words-per-minute/ is the second such place, so it takes
+   the same rule rather than restating the numbers. */
 #font-layout-card .pacing-input-group,
 #font-layout-card .switch-container,
-#font-layout-card .single-button-container {
+#font-layout-card .single-button-container,
+.calc .pacing-fields-container,
+.calc .pacing-input-group {
     display: flex;
     align-items: center;
     align-self: stretch;
@@ -229,14 +316,15 @@ h2 {
     border-radius: 0;
 }
 
-/* However wide the preview grows, its title and its clock stay inside the same
-   column as the cards above, so they line up with them instead of drifting out
-   to the edges of the screen. */
+/* However wide the preview grows, its title and its clock stay in the same
+   column as the cards above and start where their text starts, instead of
+   drifting out to the edges. The inset is the distance from the card's own edge
+   to that column: on a phone, where the preview covers the window and the cards
+   sit inside the body's padding, that comes to those 16px plus the card's 12;
+   on a wide screen it is however far in the column begins. Never less than a
+   card's padding, for when the preview is narrower than the column itself. */
 .preview-card .preview-header {
-    width: 100%;
-    max-width: var(--column);
-    margin-inline: auto;
-    padding: 12px 12px 0;
+    padding: 12px max(12px, calc((100% - min(var(--column), 100vw - 32px)) / 2 + 12px)) 0;
 }
 
 /* The rounding lives here rather than on the card, so that clipping the black
@@ -328,11 +416,17 @@ input::-webkit-inner-spin-button {
     color: var(--m3-color-on-primary);
 }
 
+/* currentColor, so the fill follows the button. The icon has the base
+   transition too, which would ease a value that is already being eased by the
+   button above it: two 150ms curves in series, and the arrow arrives after its
+   own background. The parent's animation is the one to follow, so the icon
+   takes each frame of it as it comes. */
 .step-btn svg {
     width: 16px;
     height: 16px;
     fill: currentColor;
     pointer-events: none;
+    transition: none;
 }
 
 /* A spin control is a mouse affordance: the browser's own does not appear on a
@@ -387,7 +481,6 @@ input::-webkit-inner-spin-button {
 }
 
 .pacing-label {
-    font-family: var(--font-family-mono);
     font-weight: 500;
     color: var(--m3-color-on-surface-variant);
 }
@@ -408,8 +501,12 @@ input::-webkit-inner-spin-button {
     height: 4px;
     border-radius: 2px;
     background-color: var(--m3-color-surface-variant);
+    transition: var(--theme-transition);
 }
 
+/* The base rule reaches elements, not pseudo-elements, so the thumb was the
+   one control in the app that snapped: no theme fade, and the focus ring
+   appearing instantly under the pointer. It is restated here for both engines. */
 .slider::-webkit-slider-thumb {
     appearance: none;
     width: 16px;
@@ -418,12 +515,14 @@ input::-webkit-inner-spin-button {
     border: 0;
     border-radius: 50%;
     background-color: var(--m3-color-primary);
+    transition: var(--theme-transition);
 }
 
 .slider::-moz-range-track {
     height: 4px;
     border-radius: 2px;
     background-color: var(--m3-color-surface-variant);
+    transition: var(--theme-transition);
 }
 
 .slider::-moz-range-thumb {
@@ -432,6 +531,7 @@ input::-webkit-inner-spin-button {
     border: 0;
     border-radius: 50%;
     background-color: var(--m3-color-primary);
+    transition: var(--theme-transition);
 }
 
 .slider:hover::-webkit-slider-thumb,
@@ -555,6 +655,11 @@ input::-webkit-inner-spin-button {
     display: none;
 }
 
+/* The readouts and the unit labels were set in IBM Plex Mono. Plex Sans gives
+   a digit the same 0.60em advance that Plex Mono does, and gives every digit
+   the same one, so the mono was buying a texture and not an alignment - at the
+   cost of two blocking font files. It is gone; the weights stay. */
+
 /* --- Card headers --- */
 /* A title on the left, a readout on the right: the word count over the script
    and the running time over the preview are the same thing in two places.
@@ -603,7 +708,6 @@ input::-webkit-inner-spin-button {
     white-space: nowrap;
     cursor: default;
     user-select: none;
-    font-family: var(--font-family-mono);
     font-weight: 700;
     color: var(--m3-color-primary);
     background-color: var(--m3-color-surface-variant);
@@ -639,6 +743,69 @@ input::-webkit-inner-spin-button {
     width: 100%;
     overflow: hidden;
     scrollbar-width: none;
+}
+
+/* --- Width grips ---
+   The preview card is already as wide a slice of the window as the text is, so
+   its edges are the width setting made visible. These make them draggable: a
+   strip you can hit, showing a short bar when the pointer is on it. The number
+   field and the slider stay the way to set it precisely - this is the way to
+   set it by eye, which is how a measure is actually judged. */
+.width-grip {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 14px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ew-resize;
+    /* The pointer here is dragging, never scrolling or panning the page */
+    touch-action: none;
+}
+
+.width-grip[data-edge="start"] {
+    left: 0;
+}
+
+.width-grip[data-edge="end"] {
+    right: 0;
+}
+
+.width-grip::before {
+    content: '';
+    width: 4px;
+    height: 44px;
+    border-radius: 2px;
+    background-color: var(--m3-color-primary);
+    opacity: 0;
+    transition: opacity var(--ease);
+}
+
+.width-grip:hover::before,
+.width-grip.is-dragging::before {
+    opacity: 1;
+}
+
+/* The same gate the field steppers take, for the same two reasons: a drag
+   handle is a mouse affordance, and a 14px strip down the edge of the preview
+   is exactly where a thumb would try to scroll. Not a width breakpoint - a
+   narrow window on a desktop still has a mouse. */
+@media not all and (any-pointer: fine) {
+    .width-grip {
+        display: none;
+    }
+}
+
+/* For the length of a drag the cursor is the drag's wherever the pointer goes,
+   and nothing on the page gets selected by a pointer that is busy. Capture
+   routes the events back here but does not carry the cursor with them, hence
+   the override. */
+.is-resizing-width,
+.is-resizing-width * {
+    cursor: ew-resize !important;
+    user-select: none !important;
 }
 
 /* Reading line: sits over the preview, never scrolls with it */
@@ -710,6 +877,11 @@ input::-webkit-inner-spin-button {
     display: none;
     position: fixed;
     inset: 0;
+    /* The prompter scrolls itself and nothing beyond it: without this, reaching
+       either end passes the gesture on to the page underneath, and the browser
+       reads that as scrolling the document - which is what makes a phone slide
+       its address bar in and out mid-take. */
+    overscroll-behavior: none;
     background-color: var(--m3-color-background);
     color: var(--m3-color-on-surface);
     overflow-y: auto;
@@ -818,7 +990,6 @@ input::-webkit-inner-spin-button {
 }
 
 #time-remaining {
-    font-family: var(--font-family-mono);
     font-size: 18px;
     font-weight: 500;
     color: var(--prompter-ui-on-background);
@@ -832,11 +1003,135 @@ input::-webkit-inner-spin-button {
     padding: 0 12px;
 }
 
+/* A heading belongs to the text under it. Left alone, both gaps are the
+   paragraph's own 16px and the sections stop reading as sections, so the space
+   above a heading is set wide and the space below it is closed up. */
 .intro-section h2 {
+    color: var(--m3-color-primary);
+    margin-block-start: 40px;
+}
+
+/* What closes the gap below: h2's own bottom margin would collapse into the
+   paragraph's larger top one and count for nothing, so the paragraph's is the
+   one that is set. */
+.intro-section h2 + * {
+    margin-block-start: 8px;
+}
+
+/* The FAQ questions: a step down in size from the section headings, with the
+   same accent colour every other heading on the site takes. */
+.intro-section h3 {
+    font-size: 16px;
+    margin-block: 20px 4px;
+}
+
+/* --- FAQ accordion ---
+   Native <details>, so it opens with no script and the answers are in the
+   document whether or not they are open. The rows are separated by a rule
+   rather than boxed: six cards in a column would weigh more than the six
+   sentences inside them. */
+.faq {
+    /* Every row ends 14px below its last line, in padding: the summary's when
+       the row is closed, the row's own when it is open. What follows used to
+       add its margin on top of that, which came to 54px where every other
+       section break is 40. The 14 is given back here, so the gap that shows is
+       the one the next element asked for, open or closed. */
+    margin-block: 8px -14px;
+    border-top: 1px solid var(--m3-color-surface-variant);
+}
+
+.faq details {
+    border-bottom: 1px solid var(--m3-color-surface-variant);
+}
+
+/* The rules separate questions; after the last one there is nothing left to
+   separate, and a line there closes the list off from what follows it. */
+.faq details:last-child {
+    border-bottom: 0;
+}
+
+.faq summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-block: 14px;
+    cursor: pointer;
+    list-style: none;
+}
+
+/* Safari still draws its own triangle without this. */
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+
+/* The questions are the one heading on the site that is not in the accent: a
+   column of six accent lines reads as six section titles, and they are a list
+   of things to open. The accent is kept for the chevron and for hover, where
+   it says which row the pointer is on. */
+.faq summary h3 {
+    flex: 1;
+    margin: 0;
+    color: var(--m3-color-on-surface);
+    /* Headings are given `cursor: default` because a title is not something you
+       click. This one is: it fills the row you open, so it takes the row's. */
+    cursor: inherit;
+}
+
+.faq summary:hover h3 {
     color: var(--m3-color-primary);
 }
 
-.intro-section p,
+/* The chevron, drawn with two borders: an icon in the sprite would have to be
+   repeated on the pages that do not load it. */
+.faq summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    margin-inline-end: 4px;
+    border-right: 2px solid var(--m3-color-primary);
+    border-bottom: 2px solid var(--m3-color-primary);
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform var(--ease);
+}
+
+.faq details[open] summary::after {
+    transform: translateY(2px) rotate(-135deg);
+}
+
+.faq details > :not(summary) {
+    margin-block: 0 14px;
+}
+
+/* The answer's own bottom margin would collapse straight out of the block and
+   take the gap after the FAQ down with it, so the space under the last thing in
+   an open row is the row's padding, which collapses with nothing. Closed rows
+   get it from the summary's padding and need none. */
+.faq details > :last-child {
+    margin-block-end: 0;
+}
+
+.faq details[open] {
+    padding-block-end: 14px;
+}
+
+.intro-section a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.intro-section a:hover {
+    color: var(--m3-color-primary);
+}
+
+/* The article's own body text. A .card-title is a label on a control, not
+   prose, and `.intro-section p` would outrank the class that colours it, so the
+   titles are excluded here rather than given a second colour rule. The
+   exclusion is wrapped in :where(), which weighs nothing: a bare :not() counts
+   as a class and would push this rule past .lede below, which is how the
+   opening line ended up at body size. */
+.intro-section p:where(:not(.card-title)),
 .intro-section li {
     font-size: 16px;
     line-height: 1.6;

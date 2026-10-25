@@ -419,6 +419,23 @@ document.addEventListener('DOMContentLoaded', () => {
        declares is the ceiling the run obeys - a field left blank or holding
        four digits cannot put the script on screen at NaN or 6000 words a
        minute. Typing is left alone; the field is snapped on blur. */
+    /* The starting width is whatever puts the text at roughly the same measure
+       on any screen: 864px of it, which is the 45% a 1080p screen gives. A
+       narrower window needs a larger share to reach that and simply stops at
+       the whole width, which is what a phone gets; a wider one needs less. It
+       is measured against the window rather than the monitor, because the
+       window is what the prompter will fill. Only ever a starting point: a
+       width that has been saved always wins over it. */
+    const TARGET_TEXT_MEASURE = 864;
+
+    function defaultTextWidth() {
+        const min = parseInt(widthInput.min, 10);
+        const max = parseInt(widthInput.max, 10);
+        const step = parseInt(widthInput.step, 10);
+        const share = (TARGET_TEXT_MEASURE / window.innerWidth) * 100;
+        return Math.min(max, Math.max(min, Math.round(share / step) * step));
+    }
+
     function applyWPM(value, updateInput = true) {
         const max = parseInt(wpmInput.max, 10);
         const typed = parseInt(value, 10);
@@ -669,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const settings = JSON.parse(settingsJSON);
             scriptText.value = settings.script || '';
             fontsizeInput.value = settings.fontSize || 60;
-            widthInput.value = settings.textWidth || 45;
+            widthInput.value = settings.textWidth || defaultTextWidth();
             applyWPM(settings.wpm || 150);
             setTimeFields(parseFloat(settings.time));
             mirrorH = settings.mirrorH ?? settings.isMirrored ?? false;
@@ -681,6 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             currentMode = prefersDark ? 'dark' : 'light';
             lastEditedPacingControl = 'wpm';
+            widthInput.value = defaultTextWidth();
         }
 
         alignCenterIcon.style.display = currentAlignment === 'center' ? 'block' : 'none';
@@ -704,13 +722,114 @@ document.addEventListener('DOMContentLoaded', () => {
        as well as by scroll events, because scrolling at the very end of the
        script, or over the fixed controls, fires no scroll event at all and used
        to leave the prompter paused for good. */
+    /* --- Scrolling with the wheel ---
+       A notch is a jump: the browser moves the box by the whole delta at once,
+       and the handler over the controls used to do the same by hand. Two paths,
+       both of them a step rather than a movement, which is why the wheel felt
+       smooth in one part of the screen and not in another.
+
+       Both go through here now. A notch adds to a target and the box eases
+       towards it, so a single notch glides and a spin becomes one continuous
+       movement instead of a row of steps. Framerate-independent: a fixed share
+       of the remaining distance per unit of time, not per frame. */
+    /* A glide of a fixed length, not a decay towards the target: an exponential
+       one never quite arrives, so its last ten pixels take as long as its first
+       ninety and the run sat there waiting for them. This lands exactly, on
+       time, and the run picks up right after it does. */
+    const WHEEL_DURATION = 180;
+    /* The resume hangs on the clock rather than on the end of the glide: a tab
+       that stops being painted stops getting frames, and a run that waits for a
+       frame that never comes never starts again. */
+    const WHEEL_RESUME_DELAY = WHEEL_DURATION + 20;
+    // one notch, where the browser reports lines instead of pixels
+    const WHEEL_LINE = 40;
+
+    let wheelTarget = null;
+    let wheelFrom = 0;
+    let wheelStart = 0;
+    let wheelFrame = null;
+
+    function wheelDelta(e) {
+        if (e.deltaMode === 1) return e.deltaY * WHEEL_LINE;
+        if (e.deltaMode === 2) return e.deltaY * teleprompterDisplay.clientHeight;
+        return e.deltaY;
+    }
+
+    function wheelStep(now) {
+        /* The run has taken the box back: it writes a position every frame from
+           the clock, and two writers would fight over it. */
+        if (!isPaused) {
+            cancelWheel();
+            return;
+        }
+        const t = Math.min((now - wheelStart) / WHEEL_DURATION, 1);
+        // ease-out: quickest at the start, where the hand still expects it
+        const eased = 1 - Math.pow(1 - t, 3);
+        teleprompterDisplay.scrollTop = wheelFrom + (wheelTarget - wheelFrom) * eased;
+        if (t >= 1) {
+            cancelWheel();
+            return;
+        }
+        wheelFrame = requestAnimationFrame(wheelStep);
+    }
+
+    function wheelBy(delta) {
+        const range = scrollRange(teleprompterDisplay);
+        // notches land on top of each other rather than resetting the target
+        const from = wheelTarget === null ? teleprompterDisplay.scrollTop : wheelTarget;
+        wheelTarget = Math.min(range, Math.max(0, from + delta));
+        /* Each notch restarts the glide from wherever the box has got to, so a
+           spin is one movement and the clock only ever runs from the last one. */
+        wheelFrom = teleprompterDisplay.scrollTop;
+        wheelStart = performance.now();
+        /* Armed from the last notch, so a spin is one glide and one resume at
+           the end of it. The scroll events the glide itself fires cannot push
+           this out: scheduleResume steps aside while a glide is running. */
+        clearTimeout(scrollTimeoutId);
+        scrollTimeoutId = setTimeout(resumeNow, WHEEL_RESUME_DELAY);
+        if (wheelFrame === null) wheelFrame = requestAnimationFrame(wheelStep);
+    }
+
+    function cancelWheel() {
+        if (wheelFrame) cancelAnimationFrame(wheelFrame);
+        wheelFrame = null;
+        wheelTarget = null;
+    }
+
+    function handleWheel(e) {
+        e.preventDefault();
+        handleUserScrollStart();
+        wheelBy(wheelDelta(e));
+    }
+
+    /* The wheel sends one event per notch and says nothing about having stopped,
+       so the resume waits to see whether another notch is coming. Long enough to
+       bridge the gap inside a spin, short enough not to be felt as a pause of
+       its own: a fast spin sends notches 20 to 50ms apart. */
+    const RESUME_DELAY = 100;
+
     function scheduleResume() {
         if (!wasRunningBeforeScroll) return;
+        /* A key that is still down is not a wheel that might have stopped:
+           waiting for a gap would let the run restart between two frames of a
+           hold. The release calls resumeNow itself. */
+        if (seekDirection !== 0) return;
+        // nor while the wheel's own easing is still running: it ends with a resume
+        if (wheelFrame !== null) return;
         clearTimeout(scrollTimeoutId);
-        scrollTimeoutId = setTimeout(() => {
-            wasRunningBeforeScroll = false;
-            if (isPaused) togglePause();
-        }, 150);
+        scrollTimeoutId = setTimeout(resumeNow, RESUME_DELAY);
+    }
+
+    /* A key tells you exactly when it was let go, so there is nothing to wait
+       for and the run picks up on the release itself. */
+    function resumeNow() {
+        if (!wasRunningBeforeScroll) return;
+        clearTimeout(scrollTimeoutId);
+        /* Whatever is left of a glide belongs to the run now, and a glide left
+           pending would hold scheduleResume off for good. */
+        cancelWheel();
+        wasRunningBeforeScroll = false;
+        if (isPaused) togglePause();
     }
 
     function handleUserScrollStart() {
@@ -735,15 +854,19 @@ document.addEventListener('DOMContentLoaded', () => {
     teleprompterDisplay.addEventListener('click', (e) => {
         if (!e.target.closest('.prompter-ui')) togglePause();
     });
-    teleprompterDisplay.addEventListener('wheel', handleUserScrollStart, {
-        passive: true
+    teleprompterDisplay.addEventListener('wheel', handleWheel, {
+        passive: false
     });
     teleprompterDisplay.addEventListener('touchstart', handleUserScrollStart, {
         passive: true
     });
     teleprompterDisplay.addEventListener('scroll', () => {
         if (Math.abs(teleprompterDisplay.scrollTop - programmaticScrollTop) < 1.5) return;
-        clearTimeout(scrollTimeoutId);
+        /* No clearTimeout here. A glide writes a position every frame and every
+           one of those fires this, so a bare clear would kill the resume the
+           wheel armed, and scheduleResume - which stands aside while a glide is
+           running - would never put it back. It clears and re-arms by itself
+           where that is the right thing to do. */
         if (scrollRange(teleprompterDisplay) > 0) {
             const scrollFraction = progressAt(teleprompterDisplay);
             elapsedTimeAtPause = totalMilliseconds * scrollFraction;
@@ -775,14 +898,90 @@ document.addEventListener('DOMContentLoaded', () => {
     prompterUIElements.forEach(el => {
         el.addEventListener('mouseenter', showPrompterUI);
         el.addEventListener('mouseleave', resetUIFadeTimeout);
-        el.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            handleUserScrollStart();
-            teleprompterDisplay.scrollTop += e.deltaY;
-        }, {
+        /* The controls sit over the box and swallow the wheel, so they pass it
+           on - through the same easing, or scrolling over the clock would step
+           while scrolling over the text glides. */
+        el.addEventListener('wheel', handleWheel, {
             passive: false
         });
     });
+    /* --- Moving with the arrow keys ---
+       The same thing the wheel does, slower and without having to keep turning
+       it: hold a key and the script moves, let go and it stops. No step, no
+       delay before the hold takes over - a key going down starts the movement
+       and that is all that ever happens, so there is nothing to see but the
+       text moving.
+
+       Pixels a second rather than seconds of script, because this is a nudge
+       back to a line you can see, not a seek through a timeline. The position
+       is written straight to the scrollbar, as the wheel writes it, and the
+       scroll listener above turns it back into an elapsed time. */
+    const SEEK_SPEED = 320;
+    /* A frame after a stall would otherwise jump the whole gap at once. */
+    const SEEK_MAX_STEP = 0.05;
+
+    const SEEK_KEYS = {
+        ArrowUp: -1,
+        ArrowLeft: -1,
+        ArrowDown: 1,
+        ArrowRight: 1
+    };
+
+    const seekHeld = new Set();
+    let seekDirection = 0;
+    let seekFrame = null;
+    let seekLastFrame = 0;
+
+    function seekStep(now) {
+        // closed mid-hold: the keyup is going to land on nothing
+        if (teleprompterDisplay.style.display !== 'block') {
+            seekHeld.clear();
+            updateSeek();
+            return;
+        }
+        const seconds = Math.min((now - seekLastFrame) / 1000, SEEK_MAX_STEP);
+        seekLastFrame = now;
+        /* Re-armed on every frame: this is what holds the run paused while the
+           key is down, and it pushes the resume out to 150ms after it comes up. */
+        handleUserScrollStart();
+        // the scrollbar stops at its own ends, so there is nothing to clamp
+        teleprompterDisplay.scrollTop += seekDirection * SEEK_SPEED * seconds;
+        seekFrame = requestAnimationFrame(seekStep);
+    }
+
+    /* Both keys down cancel out rather than fighting, and releasing one of two
+       carries straight on in the other direction without restarting. */
+    function updateSeek() {
+        let direction = 0;
+        seekHeld.forEach(key => {
+            direction += SEEK_KEYS[key];
+        });
+        seekDirection = Math.sign(direction);
+
+        if (seekDirection === 0) {
+            if (seekFrame) cancelAnimationFrame(seekFrame);
+            seekFrame = null;
+            resumeNow();
+        } else if (seekFrame === null) {
+            cancelWheel();
+            seekLastFrame = performance.now();
+            seekFrame = requestAnimationFrame(seekStep);
+        }
+    }
+
+    document.addEventListener('keyup', (e) => {
+        if (SEEK_KEYS[e.key]) {
+            seekHeld.delete(e.key);
+            updateSeek();
+        }
+    });
+
+    /* A key held while the window goes away never sends its keyup. */
+    window.addEventListener('blur', () => {
+        seekHeld.clear();
+        updateSeek();
+    });
+
     document.addEventListener('keydown', (e) => {
         if (teleprompterDisplay.style.display === 'block') {
             if (e.key === 'Escape') stopTeleprompter(true);
@@ -790,6 +989,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 togglePause();
             } else if (e.key.toLowerCase() === 'r') restartScroll();
+            else if (SEEK_KEYS[e.key]) {
+                // the browser would scroll the display as well as this does
+                e.preventDefault();
+                /* The repeats the OS sends are ignored: the movement is one
+                   loop that runs for as long as the key is down. */
+                if (!e.repeat) {
+                    seekHeld.add(e.key);
+                    updateSeek();
+                }
+            }
         }
         else {
             const tag = document.activeElement.tagName.toLowerCase();
@@ -893,6 +1102,79 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTextWidth(widthSlider.value);
         updatePreview();
         saveSettings();
+    });
+
+    /* --- Dragging the preview's edge ---
+       The card is centred and exactly as wide as the setting, so the width a
+       drag is asking for is twice the distance from the centre of the window to
+       the pointer - which also means the edge stays under the cursor the whole
+       way. Snapped to the field's own step, so the drag, the slider and the
+       field can never end up holding three different numbers.
+
+       No easePreviewWidth here on purpose: the spring is for a width that jumps
+       to a new value on its own, and under a pointer it would read as lag. */
+    function widthFromPointer(clientX) {
+        const min = parseInt(widthInput.min, 10);
+        const max = parseInt(widthInput.max, 10);
+        const step = parseInt(widthInput.step, 10);
+        const share = (Math.abs(clientX - window.innerWidth / 2) * 2 / window.innerWidth) * 100;
+        return Math.min(max, Math.max(min, Math.round(share / step) * step));
+    }
+
+    document.querySelectorAll('.width-grip').forEach(grip => {
+        /* The id of the pointer that started the drag, and the whole of the
+           drag's state. The move and the release are listened for on the window
+           rather than on the strip: pointer capture is asked for too, but as an
+           optimisation and not as the mechanism - if it is refused, or throws,
+           the drag still runs. */
+        let dragPointer = null;
+
+        function moveDrag(e) {
+            if (e.pointerId !== dragPointer) return;
+            const next = widthFromPointer(e.clientX);
+            // the step is the detent: nothing is re-laid-out between two of them
+            if (next === currentTextWidth) return;
+            applyTextWidth(next);
+            updatePreview(); // line breaks depend on the width
+        }
+
+        function endDrag(e) {
+            if (e.pointerId !== dragPointer) return;
+            dragPointer = null;
+            window.removeEventListener('pointermove', moveDrag);
+            window.removeEventListener('pointerup', endDrag);
+            window.removeEventListener('pointercancel', endDrag);
+            grip.classList.remove('is-dragging');
+            document.documentElement.classList.remove('is-resizing-width');
+            /* Once, here, rather than on every frame of the drag: the settings
+               are one object written whole, and the value that matters is the
+               one the pointer was let go on. */
+            saveSettings();
+        }
+
+        grip.addEventListener('pointerdown', e => {
+            /* Touch is left to the slider. The CSS already hides the grip where
+               no pointer is fine, but a laptop with a touchscreen has both, and
+               there a finger on this strip means scrolling. */
+            if (e.pointerType === 'touch') return;
+            e.preventDefault();
+            e.stopPropagation();
+            dragPointer = e.pointerId;
+            grip.classList.add('is-dragging');
+            document.documentElement.classList.add('is-resizing-width');
+            try {
+                grip.setPointerCapture(e.pointerId);
+            } catch (err) {
+                /* Nothing to do: the window listeners are the drag. */
+            }
+            window.addEventListener('pointermove', moveDrag);
+            window.addEventListener('pointerup', endDrag);
+            window.addEventListener('pointercancel', endDrag);
+        });
+
+        /* The click that follows the release would otherwise land on the preview
+           underneath, which takes a click as "start scrolling". */
+        grip.addEventListener('click', e => e.stopPropagation());
     });
 
     /* The preview is a rehearsal in a box on the page, so with the window out of

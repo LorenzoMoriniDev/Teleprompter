@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord-dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <title>Words Per Minute Calculator | How Long Is My Script Spoken Out Loud</title>
+    <meta name="description" content="Free words-per-minute calculator for scripts and speeches. Paste the text to see how long it takes to read out loud, or enter a duration to get the words per minute you need. Includes speaking-rate reference figures.">
+    <meta name="keywords" content="words per minute calculator, speech length calculator, script timer, how long is my script, reading time calculator, speaking rate, wpm calculator, how many words per minute speech, script duration calculator, teleprompter speed calculator">
+    <link rel="canonical" href="https://teleprompter.free/words-per-minute/" />
+    <meta name="theme-color" content="#2E3440">
+    <meta name="author" content="Lorenzo Morini">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Free Online Teleprompter">
+    <meta property="og:url" content="https://teleprompter.free/words-per-minute/">
+    <meta property="og:title" content="Words Per Minute Calculator | How Long Is My Script Spoken Out Loud">
+    <meta property="og:description" content="Paste a script to see how long it takes to read out loud, or enter a duration to get the words per minute you need.">
+    <meta property="og:image" content="https://teleprompter.free/favicon-512x512.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="preload" href="/fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/fonts.css">
+    <link rel="stylesheet" href="/themes.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/pages.css">
+
+    <script>
+        (function() {
+            let mode;
+            try {
+                const settingsJSON = localStorage.getItem('teleprompterSettings');
+                if (settingsJSON) {
+                    mode = JSON.parse(settingsJSON).mode || 'dark';
+                } else {
+                    mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+            } catch (e) {
+                mode = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', `nord-${mode}`);
+        })();
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Words Per Minute Calculator",
+          "url": "https://teleprompter.free/words-per-minute/",
+          "applicationCategory": "UtilitiesApplication",
+          "operatingSystem": "Any (web browser)",
+          "description": "Works out how long a script takes to read out loud at a given words-per-minute rate, and the rate needed to fit a script into a fixed duration.",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How many words per minute is a normal speaking rate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Conversation runs at roughly 150 words per minute. Presentations and prepared talks sit lower, around 120 to 140, because the audience is hearing the material for the first time. Audiobook narration is standardised at about 150."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long does it take to read 1000 words out loud?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "About 6 minutes 40 seconds at 150 words per minute, or 7 minutes 42 seconds at a slower presentation pace of 130."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many words is a 5 minute speech?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Around 650 words at a presentation pace of 130 words per minute, or 750 words at a conversational 150. Write towards the lower figure, since pauses only ever add time."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is reading time the same as speaking time?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Silent reading runs at about 240 words per minute, well over speaking pace, so a reading-time estimate will badly under-count how long a script takes out loud."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Free Online Teleprompter",
+              "item": "https://teleprompter.free/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Words per minute calculator",
+              "item": "https://teleprompter.free/words-per-minute/"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Icons used by these pages, taken from the app's set. -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-light_mode" viewBox="0 -960 960 960"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></symbol>
+        <symbol id="icon-dark_mode" viewBox="0 -960 960 960"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></symbol>
+        <!-- Material Symbols "keyboard_arrow_up"/"down", for the field steppers -->
+        <symbol id="icon-step_up" viewBox="0 -960 960 960"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></symbol>
+        <symbol id="icon-step_down" viewBox="0 -960 960 960"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></symbol>
+        <symbol id="icon-play" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol>
+    </svg>
+
+    <div class="page-shell">
+        <header class="top-bar">
+            <a class="brand" href="/"><img src="/favicon.png" alt="" width="160" height="160">Free Online Teleprompter</a>
+            <button id="theme-toggle-btn" class="icon-button" title="Toggle Theme">
+                <svg id="light-mode-icon"><use href="#icon-light_mode"></use></svg>
+                <svg id="dark-mode-icon"><use href="#icon-dark_mode"></use></svg>
+            </button>
+        </header>
+
+        <main class="content-wrapper">
+            <article class="intro-section">
+                <h1>Words Per Minute Calculator</h1>
+
+                <p class="lede">Paste a script to see how long it takes to read out loud, and the words-per-minute rate you would need to fit it into a slot.</p>
+
+                <div class="calc card">
+                    <div class="calc-script">
+                        <div class="card-header">
+                            <label for="calc-text" class="card-title">Your script</label>
+                            <span id="word-count">0 words</span>
+                        </div>
+                        <div class="text-field">
+                            <textarea id="calc-text" placeholder="Paste your script or speech here..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="calc-controls">
+                        <div class="control-row">
+                        <div class="control-group">
+                            <label for="calc-wpm" class="card-title">Words per minute</label>
+                            <div class="pacing-input-group">
+                                <div class="text-field has-stepper">
+                                    <input type="number" id="calc-wpm" value="140" min="0" max="999" step="10">
+                                    <span class="stepper">
+                                    <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More words per minute"><svg><use href="#icon-step_up"></use></svg></button>
+                                    <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less words per minute"><svg><use href="#icon-step_down"></use></svg></button>
+                                </span>
+                                </div>
+                                <span class="pacing-label">WPM</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <p class="card-title">Spoken length</p>
+                            <div class="pacing-fields-container">
+                                <div class="pacing-input-group">
+                                    <div class="text-field has-stepper">
+                                        <input type="number" id="calc-min" min="0" step="1" placeholder="0" aria-label="Minutes">
+                                        <span class="stepper">
+                                    <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More minutes"><svg><use href="#icon-step_up"></use></svg></button>
+                                    <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less minutes"><svg><use href="#icon-step_down"></use></svg></button>
+                                </span>
+                                    </div>
+                                    <label for="calc-min" class="pacing-label">Min</label>
+                                </div>
+                                <div class="pacing-input-group">
+                                    <div class="text-field has-stepper">
+                                        <input type="number" id="calc-sec" min="0" max="59" step="5" placeholder="0" aria-label="Seconds">
+                                        <span class="stepper">
+                                    <button type="button" class="step-btn" data-step="up" tabindex="-1" aria-label="More seconds"><svg><use href="#icon-step_up"></use></svg></button>
+                                    <button type="button" class="step-btn" data-step="down" tabindex="-1" aria-label="Less seconds"><svg><use href="#icon-step_down"></use></svg></button>
+                                </span>
+                                    </div>
+                                    <label for="calc-sec" class="pacing-label">Sec</label>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="cta-row"><a class="cta" id="calc-cta" href="/"><svg><use href="#icon-play"></use></svg>Read it with the teleprompter</a></p>
+
+                <h2>What Speaking Rate Should I Use?</h2>
+                <p>The right rate depends on how quickly the audience can take the material in. Anything they are hearing for the first time, or have to hold in their head, needs to go slower.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Situation</th>
+                            <th>Words per minute</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Technical explanation, tutorial, figures and names</td>
+                            <td>110–130</td>
+                        </tr>
+                        <tr>
+                            <td>Presentation, lecture, conference talk</td>
+                            <td>120–140</td>
+                        </tr>
+                        <tr>
+                            <td>Audiobook narration (industry standard)</td>
+                            <td>~150</td>
+                        </tr>
+                        <tr>
+                            <td>Conversation, video narration, YouTube script</td>
+                            <td>140–160</td>
+                        </tr>
+                        <tr>
+                            <td>Advertising read, high-energy delivery</td>
+                            <td>160–180</td>
+                        </tr>
+                        <tr>
+                            <td>Silent reading, for comparison</td>
+                            <td>~240</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>A "reading time" estimate from a blog platform measures silent reading, which runs at about 240 words per minute against 150 spoken. Time a script with one and the read will take over half as long again.</p>
+
+                <h2>Common Script Lengths</h2>
+                <p>At 130 words per minute, a sensible default for anything prepared and spoken to an audience:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Duration</th>
+                            <th>Words (at 130 wpm)</th>
+                            <th>Words (at 150 wpm)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>30 seconds</td><td>65</td><td>75</td></tr>
+                        <tr><td>1 minute</td><td>130</td><td>150</td></tr>
+                        <tr><td>2 minutes</td><td>260</td><td>300</td></tr>
+                        <tr><td>3 minutes</td><td>390</td><td>450</td></tr>
+                        <tr><td>5 minutes</td><td>650</td><td>750</td></tr>
+                        <tr><td>10 minutes</td><td>1,300</td><td>1,500</td></tr>
+                        <tr><td>15 minutes</td><td>1,950</td><td>2,250</td></tr>
+                        <tr><td>20 minutes</td><td>2,600</td><td>3,000</td></tr>
+                        <tr><td>30 minutes</td><td>3,900</td><td>4,500</td></tr>
+                        <tr><td>45 minutes</td><td>5,850</td><td>6,750</td></tr>
+                        <tr><td>60 minutes</td><td>7,800</td><td>9,000</td></tr>
+                    </tbody>
+                </table>
+                <p>Write towards the lower column, since pauses only ever add time.</p>
+
+                <h2>Why the Figure Is Only an Estimate</h2>
+                <p>Counting words is really counting syllables badly. A script full of long technical terms takes longer per word than one of plain monosyllables, so the same thousand words can differ by twenty or thirty seconds. Numbers read aloud are worse: "1,250" is one word on the page and four or five out loud.</p>
+                <p>Write to the estimate for the first draft, then read it once with a stopwatch and trim.</p>
+
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq">
+                    <details>
+                        <summary><h3>How many words per minute is a normal speaking rate?</h3></summary>
+                        <p>Conversation runs at roughly 150 words per minute. Presentations and prepared talks sit lower, around 120 to 140, because the audience is hearing the material for the first time. Audiobook narration is standardised at about 150.</p>
+                    </details>
+                    <details>
+                        <summary><h3>How long does it take to read 1000 words out loud?</h3></summary>
+                        <p>About 6 minutes 40 seconds at 150 words per minute, or 7 minutes 42 seconds at a slower presentation pace of 130.</p>
+                    </details>
+                    <details>
+                        <summary><h3>How many words is a 5 minute speech?</h3></summary>
+                        <p>Around 650 words at a presentation pace of 130 words per minute, or 750 words at a conversational 150. Write towards the lower figure, since pauses only ever add time.</p>
+                    </details>
+                    <details>
+                        <summary><h3>Is reading time the same as speaking time?</h3></summary>
+                        <p>No. Silent reading runs at about 240 words per minute, well over speaking pace, so a reading-time estimate will badly under-count how long a script takes out loud.</p>
+                    </details>
+                </div>
+
+                <p class="cta-row"><a class="cta" href="/"><svg><use href="#icon-play"></use></svg>Open the teleprompter</a></p>
+            </article>
+        </main>
+
+        <footer class="site-footer card">
+            © 2026 <a href="https://lorenzomorini.dev/">Lorenzo Morini</a> — All rights reserved.
+        </footer>
+    </div>
+
+    <script src="/theme.js" defer></script>
+
+    <script>
+        (function() {
+            const text = document.getElementById('calc-text');
+            const wpmInput = document.getElementById('calc-wpm');
+            const minInput = document.getElementById('calc-min');
+            const secInput = document.getElementById('calc-sec');
+            const wordCountDisplay = document.getElementById('word-count');
+            const cta = document.getElementById('calc-cta');
+
+            /* The pace and the spoken length are one number said two ways, so
+               only one of them can be typed: whichever you touched last is the
+               one that stands, and the other is recalculated from it. The
+               prompter's pacing card works the same way, down to the name. */
+            let lastEditedPacingControl = 'wpm';
+
+            // Same rule as the prompter itself, so the two never disagree about
+            // how long a script is.
+            function countWords(value) {
+                const trimmed = value.trim();
+                return trimmed === '' ? 0 : trimmed.split(/\s+/).filter(Boolean).length;
+            }
+
+            /* Two fields, so it reads like a duration and not like 0.13 */
+            function getTotalMinutes() {
+                const minutes = parseInt(minInput.value, 10) || 0;
+                const seconds = parseInt(secInput.value, 10) || 0;
+                return minutes + seconds / 60;
+            }
+
+            function setTimeFields(totalMinutes) {
+                if (!isFinite(totalMinutes) || totalMinutes <= 0) {
+                    minInput.value = '';
+                    secInput.value = '';
+                    return;
+                }
+                let minutes = Math.floor(totalMinutes);
+                let seconds = Math.round((totalMinutes - minutes) * 60);
+                if (seconds === 60) {
+                    minutes += 1;
+                    seconds = 0;
+                }
+                minInput.value = minutes;
+                secInput.value = seconds;
+            }
+
+            function currentWpm() {
+                const typed = parseInt(wpmInput.value, 10);
+                return typed > 0 ? Math.min(999, typed) : 0;
+            }
+
+            function update() {
+                const words = countWords(text.value);
+                wordCountDisplay.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
+
+                if (lastEditedPacingControl === 'time') {
+                    const totalMinutes = getTotalMinutes();
+                    // Nothing to divide by, and nothing to divide: leave the
+                    // pace alone rather than writing a nonsense figure into it.
+                    if (totalMinutes > 0 && words > 0) {
+                        wpmInput.value = Math.min(999, Math.max(1, Math.round(words / totalMinutes)));
+                    }
+                } else {
+                    const rate = currentWpm();
+                    setTimeFields(rate > 0 ? words / rate : 0);
+                }
+            }
+
+            text.addEventListener('input', update);
+
+            wpmInput.addEventListener('input', () => {
+                lastEditedPacingControl = 'wpm';
+                update();
+            });
+
+            [minInput, secInput].forEach(input => {
+                input.addEventListener('input', () => {
+                    lastEditedPacingControl = 'time';
+                    update();
+                });
+            });
+
+            // The app's own steppers, doing here what they do there.
+            document.querySelectorAll('.step-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const input = button.closest('.text-field').querySelector('input');
+                    if (button.dataset.step === 'up') input.stepUp();
+                    else input.stepDown();
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                });
+            });
+
+            /* The call to action carries the script across. The prompter reads
+               the same stored settings object, so it opens on this script at
+               this pace instead of on whatever was there before. Everything
+               else in that object belongs to the user, hence read-modify-write. */
+            cta.addEventListener('click', () => {
+                if (text.value.trim() === '') return;
+                let settings = {};
+                try {
+                    settings = JSON.parse(localStorage.getItem('teleprompterSettings')) || {};
+                } catch (e) {
+                    settings = {};
+                }
+                settings.script = text.value;
+                settings.wpm = currentWpm() || settings.wpm;
+                settings.time = getTotalMinutes() || '';
+                settings.lastEditedPacingControl = lastEditedPacingControl;
+                try {
+                    localStorage.setItem('teleprompterSettings', JSON.stringify(settings));
+                } catch (e) {}
+            });
+
+            update();
+        })();
+    </script>
+</body>
+
+</html>

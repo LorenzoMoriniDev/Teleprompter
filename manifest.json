@@ -3,9 +3,9 @@
     "short_name": "Teleprompter",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#282A36",
-    "theme_color": "#BD93F9",
-    "description": "A simple, free, and powerful online teleprompter for videos, speeches, and presentations.",
+    "background_color": "#2E3440",
+    "theme_color": "#2E3440",
+    "description": "A free web-based teleprompter for videos, speeches and presentations. Pace by words per minute or total duration, pause and scroll back, mirror mode for beamsplitter rigs. Works offline.",
     "icons": [
         {
             "src": "favicon-192x192.png",

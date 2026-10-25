@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teleprompter-cache-v9';
+const CACHE_NAME = 'teleprompter-cache-v11';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -7,8 +7,6 @@ const urlsToCache = [
     '/fonts.css',
     '/script.js',
     '/fonts/ibm-plex-sans-var.woff2',
-    '/fonts/ibm-plex-mono-500.woff2',
-    '/fonts/ibm-plex-mono-700.woff2',
     '/fonts/atkinson-hyperlegible-next-700-latin.woff2',
     '/fonts/atkinson-hyperlegible-next-700-latin-ext.woff2',
     '/favicon.png',

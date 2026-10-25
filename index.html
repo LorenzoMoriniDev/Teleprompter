@@ -11,10 +11,24 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="manifest.json">
     <!-- SEO Meta Tags -->
-    <title>Free Online Teleprompter | Pause, Rewind, Works Offline</title>
-    <meta name="description" content="A free teleprompter that runs in your browser. Set the pace by words per minute or by total duration, pause and scroll back mid-take, mirror the text for a beamsplitter, and keep using it with no connection. No account, and the script stays on your device.">
-    <meta name="keywords" content="online teleprompter, free teleprompter, offline teleprompter, mirrored teleprompter, words per minute teleprompter, prompter for video">
+    <title>Free Online Teleprompter | Web-Based Prompter for Video &amp; Speeches</title>
+    <meta name="description" content="Free web-based teleprompter for videos, speeches and presentations. Set the pace by words per minute or total duration, pause and scroll back, mirror the text for a beamsplitter. No sign-up, no install, works offline.">
+    <meta name="keywords" content="online teleprompter, free teleprompter, web teleprompter, teleprompter online free, prompter tool, speech prompter, teleprompter for video, teleprompter for youtube, teleprompter for presentations, offline teleprompter, mirrored teleprompter, words per minute teleprompter, free prompter app, browser teleprompter">
     <link rel="canonical" href="https://teleprompter.free/" />
+    <meta name="theme-color" content="#2E3440">
+    <meta name="author" content="Lorenzo Morini">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Free Online Teleprompter">
+    <meta property="og:url" content="https://teleprompter.free/">
+    <meta property="og:title" content="Free Online Teleprompter | Web-Based Prompter for Video &amp; Speeches">
+    <meta property="og:description" content="Free web-based teleprompter for videos, speeches and presentations. Pace by words per minute or total duration, pause and scroll back, mirror mode, works offline. No sign-up.">
+    <meta property="og:image" content="https://teleprompter.free/favicon-512x512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Free Online Teleprompter">
+    <meta name="twitter:description" content="A free web-based teleprompter for videos, speeches and presentations. No sign-up, works offline.">
+    <meta name="twitter:image" content="https://teleprompter.free/favicon-512x512.png">
 
     <!-- Goat Counter Analytics -->
     <script data-goatcounter="https://lorenzomorinidev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -37,13 +51,108 @@
     </script>
     
     <link rel="preload" href="fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="fonts/ibm-plex-mono-500.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="fonts/ibm-plex-mono-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/atkinson-hyperlegible-next-700-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/atkinson-hyperlegible-next-700-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="themes.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Structured data. Bing and Google both read this; it is what lets them
+         state the price, the platform and the answers without guessing. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://teleprompter.free/#app",
+          "name": "Free Online Teleprompter",
+          "alternateName": "teleprompter.free",
+          "url": "https://teleprompter.free/",
+          "applicationCategory": "MultimediaApplication",
+          "applicationSubCategory": "Teleprompter",
+          "operatingSystem": "Any (web browser)",
+          "browserRequirements": "Requires JavaScript. Works offline once installed.",
+          "description": "A free web-based teleprompter for videos, speeches and presentations. Pace the script by words per minute or by total duration, pause and scroll back mid-take, and mirror the text for a beamsplitter rig.",
+          "inLanguage": "en",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Pacing by words per minute or by total duration",
+            "Pause and scroll back without losing your place",
+            "Mirror mode for beamsplitter teleprompter rigs",
+            "Adjustable font size, text width and alignment",
+            "Atkinson Hyperlegible Next for readability",
+            "Works offline and installs as a PWA",
+            "No account, script never leaves the device"
+          ],
+          "author": {
+            "@type": "Person",
+            "name": "Lorenzo Morini",
+            "url": "https://lorenzomorini.dev/"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://teleprompter.free/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is this online teleprompter free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. It is free with no account and no paid tier, and there is no limit on script length or recording time."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to install anything?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. It is a web teleprompter and runs in the browser. You can optionally install it from the browser as an app, which is what lets it run offline."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the teleprompter work offline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Once the page has loaded on a device it keeps working with no connection, so it is usable on location or in a studio without Wi-Fi."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use it with a teleprompter mirror or beamsplitter?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Mirror mode flips the text left to right, or top to bottom, so it reads correctly through the glass of a beamsplitter rig. The on-screen controls are not flipped."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many words per minute should a teleprompter scroll at?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Around 130 to 150 words per minute is a normal speaking pace for video. Slow down to 110 to 130 for a presentation or a technical explanation. If the script has to fit a fixed slot, enter the duration instead and the words per minute are worked out for you."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is my script uploaded anywhere?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. The script and the settings are kept in your browser's local storage on your own device. Nothing is sent to a server and there is no account to sign in to."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 
 </head>
 
@@ -79,7 +188,7 @@
 
         <div class="card main-script-card">
             <div class="card-header">
-                <h2 class="card-title">Script</h2>
+                <p class="card-title">Script</p>
                 <span id="word-count">0 words</span>
             </div>
             <div class="text-field">
@@ -89,7 +198,7 @@
 
         <div class="preview-card card">
             <div class="preview-header">
-                <h2 class="card-title">Preview</h2>
+                <p class="card-title">Preview</p>
                 <div class="preview-controls">
                     <button id="preview-scroll-btn" class="icon-button" title="Preview Scroll Speed">
                         <svg id="preview-play-icon"><use href="#icon-play"></use></svg>
@@ -99,6 +208,9 @@
                 </div>
             </div>
             <div class="preview-viewport">
+                <!-- Mouse-only: the preview's own edges are the width control. -->
+                <span class="width-grip" data-edge="start" aria-hidden="true"></span>
+                <span class="width-grip" data-edge="end" aria-hidden="true"></span>
                 <div id="text-preview">
                     <div id="text-preview-text"></div>
                 </div>
@@ -108,7 +220,7 @@
         
         <div class="card" id="pacing-controls-card">
             <div class="control-group">
-                <h2 class="card-title">Pacing</h2>
+                <p class="card-title">Pacing</p>
                 <div class="pacing-fields-container">
                     <div class="pacing-input-group">
                         <div class="text-field has-stepper">
@@ -179,7 +291,7 @@
             </div>
             <div class="control-row">
                 <div class="control-group" id="mirror-control">
-                    <h2 class="card-title">Mirror</h2>
+                    <p class="card-title">Mirror</p>
                     <div class="single-button-container mirror-buttons">
                         <button id="mirror-h-btn" class="icon-button" title="Mirror left to right" aria-pressed="false">
                             <svg><use href="#icon-flip"></use></svg>
@@ -190,7 +302,7 @@
                     </div>
                 </div>
                 <div class="control-group" id="alignment-control">
-                    <h2 class="card-title">Alignment</h2>
+                    <p class="card-title">Alignment</p>
                     <div class="single-button-container">
                         <button id="align-toggle-btn" class="icon-button" title="Toggle Text Alignment">
                             <svg id="align-center-icon"><use href="#icon-align-center"></use></svg>
@@ -211,9 +323,11 @@
     <!-- DESCRIPTIVE CONTENT SECTION -->
     <main class="content-wrapper">
         <article class="intro-section">
-            <p class="lede">A free online teleprompter for video, lectures, conference talks, YouTube scripts, podcasts and public speeches.</p>
+            <p class="lede">A free online teleprompter for video, lectures, conference talks, YouTube scripts, podcasts, presentations and public speeches.</p>
 
-            <h2>How to use it</h2>
+            <p>It is a web teleprompter: it runs in the browser with no sign-up and no installation, so it works the same at a desk or on a beamsplitter rig. Content creators, YouTubers, students, teachers and anyone who has to speak to camera can use it as a free speech prompter.</p>
+
+            <h2>How to Use This Online Teleprompter</h2>
             <p class="line">Paste your script into the box and set the pace, either as words per minute or as a total duration.</p>
             <p class="line">Filling in one calculates the other based on the script length, and the resulting running time is shown next to the preview.</p>
             <p class="line">Font size and text width are set separately and have no effect on the timing.</p>
@@ -221,12 +335,13 @@
             <ul>
                 <li><strong>Spacebar</strong> pauses and resumes.</li>
                 <li><strong>Mouse wheel</strong> moves through the script and carries on from wherever you stop. If you were paused, a button appears to take you back to the line you were on.</li>
+                <li><strong>Arrow keys</strong> move up and down through the script, and keep moving for as long as you hold one down.</li>
                 <li><strong>R</strong> restarts from the top.</li>
                 <li><strong>Esc</strong> closes the prompter.</li>
             </ul>
             <p>The script and the settings are stored in your browser and restored on your next visit. Nothing is sent to a server. The site can be installed from the browser and used offline.</p>
 
-            <h2>Features</h2>
+            <h2>Teleprompter Features</h2>
             <ul>
                 <li>Full-size preview</li>
                 <li>Controls for pacing, text size, width and alignment</li>
@@ -236,7 +351,47 @@
                 <li>Fully offline, can be installed as a PWA</li>
             </ul>
 
-            <h2>Why I made this</h2>
+            <h2>Guides</h2>
+            <ul>
+                <li><a href="/how-to-use-a-teleprompter/">How to use a teleprompter</a>: reading to camera without sounding like you are reading, and what to set the pace to.</li>
+                <li><a href="/mirror-teleprompter/">Mirrored teleprompter and beamsplitter setup</a>: why the text has to be flipped, and how to rig it.</li>
+                <li><a href="/words-per-minute/">Words per minute calculator</a>: how long a script takes to read out loud, and the other way round.</li>
+            </ul>
+
+            <h2>Frequently Asked Questions</h2>
+
+            <!-- <summary> takes a single heading element, so the questions are
+                 still h3 in the document outline while being the control that
+                 opens the answer. Native <details>: the answers are in the DOM
+                 whether or not they are open, which is what keeps them indexed. -->
+            <div class="faq">
+                <details>
+                    <summary><h3>Is this online teleprompter free?</h3></summary>
+                    <p>Yes. It is free with no account and no paid tier, and there is no limit on script length or recording time.</p>
+                </details>
+                <details>
+                    <summary><h3>Do I need to install anything?</h3></summary>
+                    <p>No. It is a web teleprompter and runs in the browser. You can optionally install it from the browser as an app, which is what lets it run offline.</p>
+                </details>
+                <details>
+                    <summary><h3>Does the teleprompter work offline?</h3></summary>
+                    <p>Yes. Once the page has loaded on a device it keeps working with no connection, so it is usable on location or in a studio without Wi-Fi.</p>
+                </details>
+                <details>
+                    <summary><h3>Can I use it with a teleprompter mirror or beamsplitter?</h3></summary>
+                    <p>Yes. Mirror mode flips the text left to right, or top to bottom, so it reads correctly through the glass of a beamsplitter rig. Only the text is flipped: the controls sit on top of it and stay readable.</p>
+                </details>
+                <details>
+                    <summary><h3>How many words per minute should a teleprompter scroll at?</h3></summary>
+                    <p>Around 130 to 150 words per minute is a normal speaking pace for video. Slow down to 110 to 130 for a presentation or a technical explanation. If the script has to fit a fixed slot, enter the duration instead and the words per minute are worked out for you.</p>
+                </details>
+                <details>
+                    <summary><h3>Is my script uploaded anywhere?</h3></summary>
+                    <p>No. The script and the settings are kept in your browser's local storage, on your own device. Nothing is sent to a server and there is no account to sign in to.</p>
+                </details>
+            </div>
+
+            <h2>Why I Built My Own Free Teleprompter</h2>
             <p>I had a set of video lessons to record, and I wanted something to read from while I recorded them, so I went through the free teleprompters that were around at the time. They were all fine, but, to my surprise, not one of them got all the basics right. Half the time the thing I wanted was there but done carelessly, and the rest of the time it simply wasn't there. After a while, it seemed quicker to write my own than to keep working around theirs.</p>
             <p>Once the videos were done, I took a domain and put it online for free, since I figured I couldn't be the only one who needed a tool like this. It's the same version I use. I update it whenever I feel like it.</p>
         </article>

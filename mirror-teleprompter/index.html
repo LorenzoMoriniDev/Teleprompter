@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="nord-dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <title>Mirrored Teleprompter | Free Mirror Text for a Beamsplitter Rig</title>
+    <meta name="description" content="A free mirrored teleprompter for beamsplitter rigs. Flip the script left to right or top to bottom so it reads correctly through the glass, with no account and no install. Includes how to work out which way to mirror.">
+    <meta name="keywords" content="mirrored teleprompter, mirror teleprompter, teleprompter mirror text, reverse text teleprompter, beamsplitter teleprompter, flip text teleprompter, backwards text teleprompter, teleprompter glass, free mirrored prompter">
+    <link rel="canonical" href="https://teleprompter.free/mirror-teleprompter/" />
+    <meta name="theme-color" content="#2E3440">
+    <meta name="author" content="Lorenzo Morini">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Free Online Teleprompter">
+    <meta property="og:url" content="https://teleprompter.free/mirror-teleprompter/">
+    <meta property="og:title" content="Mirrored Teleprompter | Free Mirror Text for a Beamsplitter Rig">
+    <meta property="og:description" content="Flip the script so it reads correctly through beamsplitter glass, and work out which way it needs flipping.">
+    <meta property="og:image" content="https://teleprompter.free/favicon-512x512.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="preload" href="/fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/fonts.css">
+    <link rel="stylesheet" href="/themes.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/pages.css">
+
+    <script>
+        (function() {
+            let mode;
+            try {
+                const settingsJSON = localStorage.getItem('teleprompterSettings');
+                if (settingsJSON) {
+                    mode = JSON.parse(settingsJSON).mode || 'dark';
+                } else {
+                    mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+            } catch (e) {
+                mode = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', `nord-${mode}`);
+        })();
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Why does teleprompter text need to be mirrored?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In a beamsplitter rig you read the screen as a reflection in a sheet of glass, and a reflection reverses left and right. The text has to be flipped on the screen so that the reflection you read is the right way round."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which way should I mirror the text?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It depends on how the screen is mounted. A screen lying flat and facing up, under the glass, needs a left-to-right flip. A screen mounted above the glass and facing down needs a top-to-bottom flip as well, because hanging it upside down already reverses the vertical. The quickest check is to turn mirroring on and look through the glass, keeping whichever setting reads correctly."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a mirrored teleprompter without a beamsplitter?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. If you are reading the screen directly, from a second monitor or a tablet under the lens, the text should not be mirrored. Mirroring is only for rigs where you read a reflection."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is there a free mirrored teleprompter?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The teleprompter on this site mirrors left to right and top to bottom, free, with no account and no install. Only the text is flipped: the controls sit on top of it and stay readable."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Free Online Teleprompter",
+              "item": "https://teleprompter.free/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Mirrored teleprompter",
+              "item": "https://teleprompter.free/mirror-teleprompter/"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Icons used by these pages, taken from the app's set. -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-light_mode" viewBox="0 -960 960 960"><path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z"/></symbol>
+        <symbol id="icon-dark_mode" viewBox="0 -960 960 960"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></symbol>
+        <symbol id="icon-play" viewBox="0 -960 960 960"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></symbol>
+    </svg>
+
+    <div class="page-shell">
+        <header class="top-bar">
+            <a class="brand" href="/"><img src="/favicon.png" alt="" width="160" height="160">Free Online Teleprompter</a>
+            <button id="theme-toggle-btn" class="icon-button" title="Toggle Theme">
+                <svg id="light-mode-icon"><use href="#icon-light_mode"></use></svg>
+                <svg id="dark-mode-icon"><use href="#icon-dark_mode"></use></svg>
+            </button>
+        </header>
+
+        <main class="content-wrapper">
+            <article class="intro-section">
+                <h1>Mirrored Teleprompter</h1>
+
+                <p class="lede">If you read your script off a sheet of glass in front of the lens, the text on the screen has to be backwards. This is a free mirrored teleprompter that flips it for you, left to right or top to bottom, with no account and nothing to install.</p>
+
+                <p class="cta-row"><a class="cta" href="/"><svg><use href="#icon-play"></use></svg>Open the teleprompter</a></p>
+
+                <h2>Why the Text Has to Be Mirrored</h2>
+                <p>In a beamsplitter rig the screen sits under, or above, a sheet of half-silvered glass angled at 45°, and you read its reflection in that glass while the camera shoots straight through it. The camera sees you looking down the lens; you see the script.</p>
+                <p>A reflection reverses left and right. So the text that is correct on the screen reads backwards in the glass, and the fix is to reverse it on the screen first: two reversals cancel out, and what you read through the glass is the right way round.</p>
+                <p>Mirroring is only for rigs where you read a reflection. If the screen is a monitor or a tablet you look at directly, leave it off.</p>
+
+                <h2>Which Way to Flip</h2>
+                <p>Which axis you need depends on how the screen is mounted.</p>
+                <ul>
+                    <li><strong>Screen flat, facing up, glass above it:</strong> flip left to right. The usual tablet-in-a-hood setup.</li>
+                    <li><strong>Screen above the glass, facing down:</strong> flip left to right <em>and</em> top to bottom. Hanging the screen upside down has already reversed the vertical, so the vertical flip puts it back.</li>
+                    <li><strong>Screen rotated 90° in the hood:</strong> try one axis, look through the glass, try the other.</li>
+                </ul>
+                <p>Turn mirroring on and look through the glass from where you will be standing, then keep whichever setting reads correctly.</p>
+
+                <h2>Mirroring on This Teleprompter</h2>
+                <p>Two buttons under <strong>Mirror</strong> on the setup screen: one flips left to right, one flips top to bottom. They are independent, so you can use either or both, and the setting is remembered for next time along with the rest of your settings.</p>
+                <p>The flip is applied to the text and to nothing else. The controls (play, pause, restart, the time remaining) sit on top of the screen and are left alone, so the clock still reads forwards and the buttons are still where you put your hand.</p>
+
+                <h2>Setting Up the Rig</h2>
+                <ol>
+                    <li>Mount the glass in front of the lens at 45°, with the hood blocking stray light from behind it.</li>
+                    <li>Position the screen so the glass picks it up: flat under the glass, or inverted above it.</li>
+                    <li>Turn the screen's brightness up. Beamsplitter glass passes most of the light to the camera and reflects only a fraction back to you, so a dim screen is unreadable in the glass.</li>
+                    <li>Paste the script, set the pace in words per minute or as a total duration, and turn on mirroring.</li>
+                    <li>Check through the glass from where you will actually be standing, and set the font size and text width from there, not from the desk.</li>
+                </ol>
+                <p>For pacing and delivery, the <a href="/how-to-use-a-teleprompter/">guide to using a teleprompter</a> covers what speed to scroll at and how to write a script that reads out loud.</p>
+
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq">
+                    <details>
+                        <summary><h3>Why does teleprompter text need to be mirrored?</h3></summary>
+                        <p>In a beamsplitter rig you read the screen as a reflection in a sheet of glass, and a reflection reverses left and right. The text has to be flipped on the screen so that the reflection you read is the right way round.</p>
+                    </details>
+                    <details>
+                        <summary><h3>Which way should I mirror the text?</h3></summary>
+                        <p>It depends on how the screen is mounted. A screen lying flat and facing up, under the glass, needs a left-to-right flip. A screen mounted above the glass and facing down needs a top-to-bottom flip as well, because hanging it upside down already reverses the vertical. The quickest check is to turn mirroring on and look through the glass, keeping whichever setting reads correctly.</p>
+                    </details>
+                    <details>
+                        <summary><h3>Do I need a mirrored teleprompter without a beamsplitter?</h3></summary>
+                        <p>No. If you are reading the screen directly, from a second monitor or a tablet under the lens, the text should not be mirrored. Mirroring is only for rigs where you read a reflection.</p>
+                    </details>
+                    <details>
+                        <summary><h3>Is there a free mirrored teleprompter?</h3></summary>
+                        <p>Yes. The teleprompter on this site mirrors left to right and top to bottom, free, with no account and no install. Only the text is flipped: the controls sit on top of it and stay readable.</p>
+                    </details>
+                </div>
+
+                <p class="cta-row"><a class="cta" href="/"><svg><use href="#icon-play"></use></svg>Open the teleprompter</a></p>
+            </article>
+        </main>
+
+        <footer class="site-footer card">
+            © 2026 <a href="https://lorenzomorini.dev/">Lorenzo Morini</a> — All rights reserved.
+        </footer>
+    </div>
+
+    <script src="/theme.js" defer></script>
+</body>
+
+</html>
