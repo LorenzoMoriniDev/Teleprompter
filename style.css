@@ -1171,7 +1171,13 @@ input::-webkit-inner-spin-button {
     font-size: 22px;
     line-height: 1.4;
     color: var(--m3-color-on-surface);
-    margin-block: 16px 32px;
+    /* The gap under it is the body's own, not a wider one: at 32px it was
+       within a few pixels of the 40 that goes before a heading, so the two
+       steps read as one size and neither separated anything. The lede is
+       already set apart by being larger and in the stronger colour. Where a
+       heading or the calculator follows instead of a paragraph, their own
+       larger top margin is the one that shows. */
+    margin-block: 16px;
 }
 
 /* One statement to a line: separate blocks rather than breaks inside a
