@@ -36,6 +36,27 @@
     scrollbar-color: var(--m3-color-primary) transparent;
 }
 
+/* The bar is its thumb and nothing else: the track is left transparent so
+   whatever is behind it shows through, instead of a strip down the edge of the
+   page in a colour of its own. Said twice because the two engines do not share
+   a property for it - scrollbar-color above for Firefox and current Chrome,
+   these for WebKit. Declaring ::-webkit-scrollbar also takes the stepper
+   arrows off the ends, which scrollbar-width: thin does on its own. */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--m3-color-primary);
+    border-radius: 4px;
+}
+
 /* The theme fade, on the things that are painted with a theme colour and on
    nothing else. It used to sit on `*`: six property transitions on all 262
    elements of the page, where only about thirty of them paint anything that
@@ -888,7 +909,10 @@ input::-webkit-inner-spin-button {
     scrollbar-width: none;
 }
 
-#teleprompter-display::-webkit-scrollbar {
+/* The two surfaces that show no bar at all: scrollbar-width: none covers the
+   standard property, and the rule above would otherwise hand them one here. */
+#teleprompter-display::-webkit-scrollbar,
+#text-preview::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
