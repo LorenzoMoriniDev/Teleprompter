@@ -1,4 +1,4 @@
-const CACHE_NAME = 'teleprompter-cache-v11';
+const CACHE_NAME = 'teleprompter-cache-v12';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -6,6 +6,14 @@ const urlsToCache = [
     '/themes.css',
     '/fonts.css',
     '/script.js',
+    /* The written pages: their own two files, and each page by the address
+       everything links to - the canonical, the sitemap and the home's list all
+       use the directory form, and a match here is by exact URL. */
+    '/pages.css',
+    '/theme.js',
+    '/how-to-use-a-teleprompter/',
+    '/mirror-teleprompter/',
+    '/words-per-minute/',
     '/fonts/ibm-plex-sans-var.woff2',
     '/fonts/atkinson-hyperlegible-next-700-latin.woff2',
     '/fonts/atkinson-hyperlegible-next-700-latin-ext.woff2',
