@@ -927,6 +927,26 @@ document.addEventListener('DOMContentLoaded', () => {
         ArrowRight: 1
     };
 
+    /* --- Moving with a presentation clicker ---
+       A clicker shows up to the browser as a keyboard, and its back and
+       forward buttons send PageUp and PageDown. Its buttons are a tap, so the
+       hold above would move the text by a pixel and look broken: these move by
+       a line of script a press instead, and a held button repeats by lines. */
+    const JUMP_KEYS = {
+        PageUp: -1,
+        PageDown: 1
+    };
+
+    function jumpLines(direction) {
+        const styles = getComputedStyle(teleprompterContent);
+        const line = parseFloat(styles.lineHeight) ||
+            parseFloat(styles.fontSize) * 1.4;
+        /* A glide in flight writes a position every frame and would carry the
+           text back over the jump. */
+        cancelWheel();
+        teleprompterDisplay.scrollTop += direction * line;
+    }
+
     const seekHeld = new Set();
     let seekDirection = 0;
     let seekFrame = null;
@@ -989,7 +1009,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 togglePause();
             } else if (e.key.toLowerCase() === 'r') restartScroll();
-            else if (SEEK_KEYS[e.key]) {
+            else if (JUMP_KEYS[e.key]) {
+                // the browser would page the display as well as this does
+                e.preventDefault();
+                jumpLines(JUMP_KEYS[e.key]);
+            } else if (SEEK_KEYS[e.key]) {
                 // the browser would scroll the display as well as this does
                 e.preventDefault();
                 /* The repeats the OS sends are ignored: the movement is one
