@@ -218,8 +218,11 @@ h2,
     text-align: center;
 }
 
+/* Follows the direction of the script rather than the page, so Arabic and
+   Hebrew sit against the right edge the way they are read. The direction
+   itself comes from dir="auto" on the text surfaces. */
 .text-align-left {
-    text-align: left;
+    text-align: start;
 }
 
 /* --- Setup layout --- */
